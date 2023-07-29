@@ -1,0 +1,24 @@
+{
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "lint": {
+      "dependsOn": [],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": [],
+      "outputs": ["coverage/**"]
+    },
+    "bump": {
+      "inputs": ["cliff.toml"],
+      "outputs": ["CHANGELOG.md"]
+    },
+    "check-update": {
+      "dependsOn": [],
+      "outputs": []
+    }
+  }
+}

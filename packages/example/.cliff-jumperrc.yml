@@ -1,0 +1,4 @@
+name: example
+org: pixelpizza
+install: true
+packagePath: packages/example

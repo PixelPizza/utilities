@@ -1,0 +1,61 @@
+name: Continuous Delivery
+
+on:
+  workflow_dispatch:
+    inputs:
+      prNumber:
+        description: The number of the PR that is being deployed
+        required: true
+      ref:
+        description: The branch that is being deployed. Should be a branch on the given repository
+        required: false
+        default: main
+      repository:
+        description: The {owner}/{repository} that is being deployed.
+        required: false
+        default: pixelpizza/ts-monorepo-template
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    name: Publish Next to npm
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'pixelpizza'
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - example
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+        with:
+          fetch-depth: 0
+          repository: ${{ github.event.inputs.repository || 'pixelpizza/ts-monorepo-template' }}
+          ref: ${{ github.event.inputs.ref || 'main' }}
+      - name: Use Node.js v18
+        uses: actions/setup-node@e33196f7422957bea03ed53f6fbb155025ffc7b8 # v3
+        with:
+          node-version: 18
+          cache: yarn
+          registry-url: https://registry.yarnpkg.com/
+      - name: Install Dependencies
+        run: yarn --immutable
+      - name: Build all packages
+        run: yarn build
+      - name: Bump Versions & Publish
+        working-directory: packages/${{ matrix.package }}
+        run: |
+          # Resolve the tag to be used. "next" for push events, "pr-{prNumber}" for dispatch events.
+          TAG=$([[ ${{ github.event_name }} == 'push' ]] && echo 'next' || echo 'pr-${{ github.event.inputs.prNumber }}')
+
+          yarn config set npmAuthToken ${NODE_AUTH_TOKEN}
+          yarn config set npmPublishRegistry "https://registry.yarnpkg.com"
+
+          yarn bump --preid "${TAG}.$(git rev-parse --verify --short HEAD)"
+
+          yarn npm publish --tag ${TAG}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
