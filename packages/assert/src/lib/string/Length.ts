@@ -18,19 +18,12 @@ export function Length(
 	max?: number
 ): PropertyDecorator {
 	return (target: unknown, key: string | symbol) => {
-		function createOptions(
-			options: number | LengthOptions,
-			max?: number
-		): LengthOptions {
-			if (typeof options !== "number") {
-				return options;
+		function createOptions(options: number | LengthOptions, max?: number) {
+			if (typeof options === "number") {
+				return max ? { min: options, max } : { max: options };
 			}
-			return max
-				? {
-						min: options,
-						max
-				  }
-				: { max: options };
+
+			return options;
 		}
 
 		function createAssertion() {

@@ -10,6 +10,15 @@ import { Ip } from "./string/Ip";
 import { Uuid } from "./string/Uuid";
 import { Date } from "./string/Date";
 import { Phone } from "./string/Phone";
+import { EqualTo } from "./comparison/EqualTo";
+import { Range } from "./comparison/Range";
+import { DivisibleBy } from "./comparison/DivisibleBy";
+import { Unique } from "./comparison/Unique";
+import { Positive } from "./number/Positive";
+import { Negative } from "./number/Negative";
+import { SafeInt } from "./number/SafeInt";
+import { Finite } from "./number/Finite";
+import { Int } from "./number/Int";
 
 export const Assert = {
 	// Basic assertions
@@ -25,5 +34,16 @@ export const Assert = {
 	Ip,
 	Uuid,
 	Date,
-	Phone
+	Phone,
+	// Comparison assertions
+	EqualTo,
+	Range,
+	DivisibleBy,
+	Unique,
+	// Number assertions
+	Positive,
+	Negative,
+	SafeInt,
+	Finite,
+	Int
 };
