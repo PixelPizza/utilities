@@ -3,6 +3,14 @@ import { Assert } from "./lib/Assert";
 export * from "./lib/basic/IsFalse";
 export * from "./lib/basic/IsNull";
 export * from "./lib/basic/IsTrue";
+export * from "./lib/string/Date";
+export * from "./lib/string/Email";
+export * from "./lib/string/Ip";
+export * from "./lib/string/Length";
+export * from "./lib/string/Phone";
+export * from "./lib/string/Regex";
+export * from "./lib/string/Url";
+export * from "./lib/string/Uuid";
 export * from "./lib/Assert";
 
 export default Assert;
