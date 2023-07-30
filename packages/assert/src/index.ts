@@ -3,6 +3,7 @@ import { Assert } from "./lib/Assert";
 export * from "./lib/basic/IsFalse";
 export * from "./lib/basic/IsNull";
 export * from "./lib/basic/IsTrue";
+export * from "./lib/basic/IsUndefined";
 export * from "./lib/string/Date";
 export * from "./lib/string/Email";
 export * from "./lib/string/Ip";

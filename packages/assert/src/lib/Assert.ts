@@ -1,6 +1,7 @@
 import { IsNull } from "./basic/IsNull";
 import { IsTrue } from "./basic/IsTrue";
 import { IsFalse } from "./basic/IsFalse";
+import { IsUndefined } from "./basic/IsUndefined";
 import { Email } from "./string/Email";
 import { Length } from "./string/Length";
 import { Url } from "./string/Url";
@@ -15,6 +16,7 @@ export const Assert = {
 	IsNull,
 	IsTrue,
 	IsFalse,
+	IsUndefined,
 	// String assertions
 	Email,
 	Length,
