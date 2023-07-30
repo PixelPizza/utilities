@@ -1,3 +1,12 @@
+import { Assert } from "./lib/Assert";
+
+export * from "./lib/basic/IsFalse";
+export * from "./lib/basic/IsNull";
+export * from "./lib/basic/IsTrue";
+export * from "./lib/Assert";
+
+export default Assert;
+
 /**
  * The version of this package you are currently using.
  * This can be used to display the version of the package in your application.

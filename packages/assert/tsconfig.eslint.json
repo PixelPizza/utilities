@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": ["../../tsconfig.base.json", "@sapphire/ts-config/extra-strict-without-decorators"],
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true
