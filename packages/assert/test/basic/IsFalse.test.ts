@@ -5,11 +5,7 @@ describe("IsFalse tests", () => {
 	test("GIVEN false THEN does not throw", () => {
 		class TestClass {
 			@Assert.IsFalse
-			public testAttribute: boolean;
-
-			public constructor() {
-				this.testAttribute = false;
-			}
+			public testAttribute = false;
 		}
 
 		expect(() => new TestClass()).not.toThrow();
@@ -18,11 +14,7 @@ describe("IsFalse tests", () => {
 	test("GIVEN true THEN throws", () => {
 		class TestClass {
 			@Assert.IsFalse
-			public testAttribute: boolean;
-
-			public constructor() {
-				this.testAttribute = true;
-			}
+			public testAttribute = true;
 		}
 
 		expect(() => new TestClass()).toThrow(
@@ -38,11 +30,7 @@ describe("IsFalse tests", () => {
 	test("GIVEN null THEN throws", () => {
 		class TestClass {
 			@Assert.IsFalse
-			public testAttribute: null;
-
-			public constructor() {
-				this.testAttribute = null;
-			}
+			public testAttribute = null;
 		}
 
 		expect(() => new TestClass()).toThrow(
