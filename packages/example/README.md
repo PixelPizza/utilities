@@ -1,1 +1,0 @@
-# @pixelpizza/example

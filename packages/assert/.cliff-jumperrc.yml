@@ -1,0 +1,4 @@
+name: assert
+org: pixelpizza
+install: true
+packagePath: packages/assert

@@ -9,9 +9,9 @@ body = """
     # [{{ version|trim_start_matches(pat="v") }}]\
     {% if previous %}\
         {% if previous.version %}\
-            (https://github.com/pixelpizza/ts-monorepo-template/compare/{{ previous.version }}...{{ version }})\
+            (https://github.com/pixelpizza/utilities/compare/{{ previous.version }}...{{ version }})\
         {% else %}\
-            (https://github.com/pixelpizza/ts-monorepo-template/tree/{{ version }})\
+            (https://github.com/pixelpizza/utilities/tree/{{ version }})\
         {% endif %}\
     {% endif %}\
     - ({{ timestamp|date(format="%Y-%m-%d") }})
@@ -24,7 +24,7 @@ body = """
         - {% if commit.scope %}\
             **{{ commit.scope }}:**\
           {% endif %}\
-        {{ commit.message|upper_first }} ([{{ commit.id|truncate(length=7, end="") }}](https://github.com/pixelpizza/ts-monorepo-template/commit/{{ commit.id }}))\
+        {{ commit.message|upper_first }} ([{{ commit.id|truncate(length=7, end="") }}](https://github.com/pixelpizza/utilities/commit/{{ commit.id }}))\
         {% if commit.breaking %}
             {% for breakingChange in commit.footers %}\
                 \n{% raw %}  {% endraw %}- **BREAKING CHANGE:** **{{ breakingChange.token }}{{ breakingChange.separator }}** {{ breakingChange.value }}\
@@ -55,7 +55,7 @@ commit_parsers = [
     { body = ".*security", group = "Security" }
 ]
 filter_commits = true
-tag_pattern = "@jaronline/example@[0-9]*"
+tag_pattern = "@pixelpizza/assert@[0-9]*"
 ignore_tags = ""
 topo_order = false
 sort_commits = "newest"
