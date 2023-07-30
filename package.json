@@ -17,7 +17,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Jaronline/ts-monorepo-template.git"
+		"url": "git+https://github.com/PixelPizza/utlities.git"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.6.7",

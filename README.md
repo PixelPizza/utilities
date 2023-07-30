@@ -1,2 +1,2 @@
-# ts-template
-Template for creating TypeScript projects
+# utilities
+Utilities for Pixel Pizza projects
