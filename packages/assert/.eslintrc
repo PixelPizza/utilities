@@ -1,0 +1,7 @@
+{
+	"extends": ["../../.eslintrc"],
+	"rules": {
+		"@typescript-eslint/unified-signatures": ["off"],
+		"@typescript-eslint/no-invalid-void-type": ["off"]
+	}
+}

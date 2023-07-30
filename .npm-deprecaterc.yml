@@ -1,4 +1,4 @@
 name: "*next*"
 verbose: true
 package:
-  - "@pixelpizza/example"
+  - "@pixelpizza/assert"
