@@ -5,11 +5,7 @@ describe("IsNull tests", () => {
 	test("GIVEN null THEN does not throw", () => {
 		class TestClass {
 			@Assert.IsNull
-			public testAttribute: null;
-
-			public constructor() {
-				this.testAttribute = null;
-			}
+			public testAttribute = null;
 		}
 
 		expect(() => new TestClass()).not.toThrow();
@@ -18,11 +14,7 @@ describe("IsNull tests", () => {
 	test("GIVEN undefined THEN throws", () => {
 		class TestClass {
 			@Assert.IsNull
-			public testAttribute: undefined;
-
-			public constructor() {
-				this.testAttribute = undefined;
-			}
+			public testAttribute = undefined;
 		}
 
 		expect(() => new TestClass()).toThrow(
