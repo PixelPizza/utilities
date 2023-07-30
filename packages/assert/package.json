@@ -15,10 +15,10 @@
 	"sideEffects": [
 		"./dist/chunk*.mjs"
 	],
-	"homepage": "https://github.com/Jaronline/utilities/tree/main/packages/assert",
+	"homepage": "https://github.com/PixelPizza/utilities/tree/main/packages/assert",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Jaronline/utilities.git",
+		"url": "git+https://github.com/PixelPizza/utilities.git",
 		"directory": "packages/assert"
 	},
 	"files": [
@@ -27,7 +27,7 @@
 		"dist/**/*.d*"
 	],
 	"bugs": {
-		"url": "https://github.com/Jaronline/utilities/issues"
+		"url": "https://github.com/PixelPizza/utilities/issues"
 	},
 	"publishConfig": {
 		"access": "public"
