@@ -12,6 +12,15 @@ describe("Range tests", () => {
 			expect(() => new Test()).not.toThrow();
 		});
 
+		test("GIVEN bigint with valid max THEN does not throw", () => {
+			class Test {
+				@Assert.Range(5n)
+				public value = 1n;
+			}
+
+			expect(() => new Test()).not.toThrow();
+		});
+
 		test("GIVEN number with invalid max THEN throws", () => {
 			class Test {
 				@Assert.Range(5)
@@ -27,6 +36,28 @@ describe("Range tests", () => {
 				)
 			);
 		});
+
+		test("GIVEN bigint with invalid max THEN throws", () => {
+			class Test {
+				@Assert.Range(5n)
+				public value = 6n;
+			}
+
+			try {
+				new Test();
+			} catch (e) {
+				console.log(e);
+			}
+
+			expect(() => new Test()).toThrow(
+				new ExpectedConstraintError(
+					"s.bigint.lessThanOrEqual",
+					"Invalid bigint value",
+					6n,
+					"expected <= 5n"
+				)
+			);
+		});
 	});
 
 	describe("Min/Max tests", () => {
@@ -34,6 +65,15 @@ describe("Range tests", () => {
 			class Test {
 				@Assert.Range(5, 10)
 				public value = 6;
+			}
+
+			expect(() => new Test()).not.toThrow();
+		});
+
+		test("GIVEN bigint with valid min/max THEN does not throw", () => {
+			class Test {
+				@Assert.Range(5n, 10n)
+				public value = 6n;
 			}
 
 			expect(() => new Test()).not.toThrow();
@@ -55,6 +95,22 @@ describe("Range tests", () => {
 			);
 		});
 
+		test("GIVEN bigint with invalid min THEN throws", () => {
+			class Test {
+				@Assert.Range(5n, 10n)
+				public value = 4n;
+			}
+
+			expect(() => new Test()).toThrow(
+				new ExpectedConstraintError(
+					"s.bigint.greaterThanOrEqual",
+					"Invalid bigint value",
+					4n,
+					"expected >= 5n"
+				)
+			);
+		});
+
 		test("GIVEN number with invalid max THEN throws", () => {
 			class Test {
 				@Assert.Range(5, 10)
@@ -70,6 +126,22 @@ describe("Range tests", () => {
 				)
 			);
 		});
+
+		test("GIVEN bigint with invalid max THEN throws", () => {
+			class Test {
+				@Assert.Range(5n, 10n)
+				public value = 11n;
+			}
+
+			expect(() => new Test()).toThrow(
+				new ExpectedConstraintError(
+					"s.bigint.lessThanOrEqual",
+					"Invalid bigint value",
+					11n,
+					"expected <= 10n"
+				)
+			);
+		});
 	});
 
 	describe("Options tests", () => {
@@ -78,6 +150,15 @@ describe("Range tests", () => {
 				class Test {
 					@Assert.Range({ equal: 5 })
 					public value = 5;
+				}
+
+				expect(() => new Test()).not.toThrow();
+			});
+
+			test("GIVEN bigint with valid equal THEN does not throw", () => {
+				class Test {
+					@Assert.Range({ equal: 5n })
+					public value = 5n;
 				}
 
 				expect(() => new Test()).not.toThrow();
@@ -98,6 +179,22 @@ describe("Range tests", () => {
 					)
 				);
 			});
+
+			test("GIVEN bigint with invalid equal THEN throws", () => {
+				class Test {
+					@Assert.Range({ equal: 5n })
+					public value = 6n;
+				}
+
+				expect(() => new Test()).toThrow(
+					new ExpectedConstraintError(
+						"s.bigint.equal",
+						"Invalid bigint value",
+						6n,
+						"expected === 5n"
+					)
+				);
+			});
 		});
 
 		describe("NotEqual tests", () => {
@@ -105,6 +202,15 @@ describe("Range tests", () => {
 				class Test {
 					@Assert.Range({ notEqual: 5 })
 					public value = 4;
+				}
+
+				expect(() => new Test()).not.toThrow();
+			});
+
+			test("GIVEN bigint with valid not equal THEN does not throw", () => {
+				class Test {
+					@Assert.Range({ notEqual: 5n })
+					public value = 4n;
 				}
 
 				expect(() => new Test()).not.toThrow();
@@ -125,6 +231,22 @@ describe("Range tests", () => {
 					)
 				);
 			});
+
+			test("GIVEN bigint with invalid not equal THEN throws", () => {
+				class Test {
+					@Assert.Range({ notEqual: 5n })
+					public value = 5n;
+				}
+
+				expect(() => new Test()).toThrow(
+					new ExpectedConstraintError(
+						"s.bigint.notEqual",
+						"Invalid bigint value",
+						5n,
+						"expected !== 5n"
+					)
+				);
+			});
 		});
 
 		describe("GreaterThan tests", () => {
@@ -132,6 +254,15 @@ describe("Range tests", () => {
 				class Test {
 					@Assert.Range({ greaterThan: 5 })
 					public value = 6;
+				}
+
+				expect(() => new Test()).not.toThrow();
+			});
+
+			test("GIVEN bigint with valid greater than THEN does not throw", () => {
+				class Test {
+					@Assert.Range({ greaterThan: 5n })
+					public value = 6n;
 				}
 
 				expect(() => new Test()).not.toThrow();
@@ -152,6 +283,22 @@ describe("Range tests", () => {
 					)
 				);
 			});
+
+			test("GIVEN bigint with invalid greater than THEN throws", () => {
+				class Test {
+					@Assert.Range({ greaterThan: 5n })
+					public value = 5n;
+				}
+
+				expect(() => new Test()).toThrow(
+					new ExpectedConstraintError(
+						"s.bigint.greaterThan",
+						"Invalid bigint value",
+						5n,
+						"expected > 5n"
+					)
+				);
+			});
 		});
 
 		describe("LessThan tests", () => {
@@ -159,6 +306,15 @@ describe("Range tests", () => {
 				class Test {
 					@Assert.Range({ lessThan: 5 })
 					public value = 4;
+				}
+
+				expect(() => new Test()).not.toThrow();
+			});
+
+			test("GIVEN bigint with valid less than THEN does not throw", () => {
+				class Test {
+					@Assert.Range({ lessThan: 5n })
+					public value = 4n;
 				}
 
 				expect(() => new Test()).not.toThrow();
@@ -176,6 +332,22 @@ describe("Range tests", () => {
 						"Invalid number value",
 						5,
 						"expected < 5"
+					)
+				);
+			});
+
+			test("GIVEN bigint with invalid less than THEN throws", () => {
+				class Test {
+					@Assert.Range({ lessThan: 5n })
+					public value = 5n;
+				}
+
+				expect(() => new Test()).toThrow(
+					new ExpectedConstraintError(
+						"s.bigint.lessThan",
+						"Invalid bigint value",
+						5n,
+						"expected < 5n"
 					)
 				);
 			});
