@@ -14,8 +14,8 @@ import { EqualTo } from "./comparison/EqualTo";
 import { Range } from "./comparison/Range";
 import { DivisibleBy } from "./comparison/DivisibleBy";
 import { Unique } from "./comparison/Unique";
-import { Positive } from "./number/Positive";
-import { Negative } from "./number/Negative";
+import { Positive } from "./sign/Positive";
+import { Negative } from "./sign/Negative";
 import { SafeInt } from "./number/SafeInt";
 import { Finite } from "./number/Finite";
 import { Int } from "./number/Int";
@@ -40,9 +40,10 @@ export const Assert = {
 	Range,
 	DivisibleBy,
 	Unique,
-	// Number assertions
+	// Sign assertions
 	Positive,
 	Negative,
+	// Number assertions
 	SafeInt,
 	Finite,
 	Int
