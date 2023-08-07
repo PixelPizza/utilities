@@ -14,11 +14,14 @@ import { EqualTo } from "./comparison/EqualTo";
 import { Range } from "./comparison/Range";
 import { DivisibleBy } from "./comparison/DivisibleBy";
 import { Unique } from "./comparison/Unique";
+import { DateRange } from "./comparison/DateRange";
 import { Positive } from "./sign/Positive";
 import { Negative } from "./sign/Negative";
 import { SafeInt } from "./number/SafeInt";
 import { Finite } from "./number/Finite";
 import { Int } from "./number/Int";
+import { ValidDate } from "./date/ValidDate";
+import { InvalidDate } from "./date/InvalidDate";
 
 export const Assert = {
 	// Basic assertions
@@ -40,11 +43,15 @@ export const Assert = {
 	Range,
 	DivisibleBy,
 	Unique,
+	DateRange,
 	// Sign assertions
 	Positive,
 	Negative,
 	// Number assertions
 	SafeInt,
 	Finite,
-	Int
+	Int,
+	// Date assertions
+	ValidDate,
+	InvalidDate
 };

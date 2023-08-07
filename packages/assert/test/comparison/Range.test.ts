@@ -43,12 +43,6 @@ describe("Range tests", () => {
 				public value = 6n;
 			}
 
-			try {
-				new Test();
-			} catch (e) {
-				console.log(e);
-			}
-
 			expect(() => new Test()).toThrow(
 				new ExpectedConstraintError(
 					"s.bigint.lessThanOrEqual",
