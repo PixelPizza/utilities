@@ -3,7 +3,8 @@ import type { BaseValidator } from "@sapphire/shapeshift";
 export function defineObjectPropertyWithAssertion(
 	assertion: BaseValidator<any>,
 	target: unknown,
-	key: string
+	key: string,
+	modifyParseValue?: <T>(value: T) => T
 ) {
 	const property = Object.getOwnPropertyDescriptor(target, key);
 
@@ -14,7 +15,9 @@ export function defineObjectPropertyWithAssertion(
 			return value;
 		},
 		set(newValue) {
-			assertion.parse(newValue);
+			assertion.parse(
+				modifyParseValue ? modifyParseValue(newValue) : newValue
+			);
 			value = newValue;
 			property?.set?.(newValue);
 		},
