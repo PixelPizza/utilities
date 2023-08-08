@@ -5,6 +5,7 @@ describe("All decorator tests", () => {
 	test("valid use of all decorators", () => {
 		class Test {
 			@Assert.IsFalse
+			@Assert.Type("boolean")
 			public isFalse = false;
 
 			@Assert.IsNull
@@ -33,6 +34,7 @@ describe("All decorator tests", () => {
 			public validDate = new Date(2020, 1, 1);
 
 			@Assert.InvalidDate
+			@Assert.Instance(Date)
 			public invalidDate = new Date("invalid");
 
 			@Assert.Unique
@@ -65,6 +67,7 @@ describe("All decorator tests", () => {
 	test("invalid use of all decorators", () => {
 		class Test {
 			@Assert.IsFalse
+			@Assert.Type("string")
 			public isFalse = true;
 
 			@Assert.IsNull
@@ -99,6 +102,7 @@ describe("All decorator tests", () => {
 			public array = ["test", "test"];
 
 			@Assert.Date
+			@Assert.Instance(Number)
 			public dateString = "notadate";
 
 			@Assert.Email
