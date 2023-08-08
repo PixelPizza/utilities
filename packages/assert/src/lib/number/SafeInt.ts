@@ -1,5 +1,5 @@
-import { defineObjectPropertyWithAssertion } from "../utils";
 import { s } from "@sapphire/shapeshift";
+import { Validator } from "../basic/Validator";
 
 /**
  * A decorator that validates that the value is a safe integer.
@@ -19,5 +19,5 @@ import { s } from "@sapphire/shapeshift";
  * @see Number.isSafeInteger
  */
 export function SafeInt(target: unknown, key: string | symbol): void {
-	defineObjectPropertyWithAssertion(s.number.safeInt, target, String(key));
+	Validator(s.number.safeInt)(target as NonNullable<unknown>, key);
 }

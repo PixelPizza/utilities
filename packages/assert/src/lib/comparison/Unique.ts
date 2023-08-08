@@ -1,5 +1,5 @@
-import { defineObjectPropertyWithAssertion } from "../utils";
 import { s } from "@sapphire/shapeshift";
+import { Validator } from "../basic/Validator";
 
 /**
  * A decorator that validates that the value is an array with unique values.
@@ -18,5 +18,5 @@ import { s } from "@sapphire/shapeshift";
  * @since 1.0.0
  */
 export function Unique(target: unknown, key: string | symbol): void {
-	defineObjectPropertyWithAssertion(s.any.array.unique, target, String(key));
+	Validator(s.any.array.unique)(target as NonNullable<unknown>, key);
 }

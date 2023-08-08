@@ -1,5 +1,5 @@
-import { defineObjectPropertyWithAssertion } from "../utils";
 import { s } from "@sapphire/shapeshift";
+import { Validator } from "../basic/Validator";
 
 /**
  * Creates a decorator that validates the decorated property is a valid ip-address.
@@ -39,15 +39,9 @@ export function Ip(
 	targetOrVersion: unknown | 4 | 6,
 	key?: string | symbol
 ): PropertyDecorator | void {
-	function decorate(target: unknown, key: string, version?: 4 | 6) {
-		defineObjectPropertyWithAssertion(s.string.ip(version), target, key);
-	}
-
 	if (typeof targetOrVersion === "number") {
-		return (target: unknown, key: string | symbol) => {
-			decorate(target, String(key), targetOrVersion as 4 | 6);
-		};
+		return Validator(s.string.ip(targetOrVersion as 4 | 6));
 	}
 
-	decorate(targetOrVersion, String(key!));
+	Validator(s.string.ip())(targetOrVersion as NonNullable<unknown>, key!);
 }

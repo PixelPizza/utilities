@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { defineObjectPropertyWithAssertion } from "../utils";
+import { Validator } from "../basic/Validator";
 
 type DateLike = Date | string | number;
 
@@ -130,10 +130,7 @@ export function DateRange(
 			return assertion;
 		}
 
-		defineObjectPropertyWithAssertion(
-			createAssertion(createOptions(options, max)),
-			target,
-			String(key)
-		);
+		const assertion = createAssertion(createOptions(options, max));
+		Validator(assertion)(target as NonNullable<unknown>, key);
 	};
 }

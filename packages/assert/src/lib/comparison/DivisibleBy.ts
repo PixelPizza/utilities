@@ -1,5 +1,5 @@
-import { defineObjectPropertyWithAssertion } from "../utils";
 import { s } from "@sapphire/shapeshift";
+import { Validator } from "../basic/Validator";
 
 function createAssertion(value: number | bigint) {
 	if (typeof value === "bigint") return s.bigint.divisibleBy(value);
@@ -23,11 +23,5 @@ function createAssertion(value: number | bigint) {
  * @since 1.0.0
  */
 export function DivisibleBy(value: number | bigint): PropertyDecorator {
-	return (target: unknown, key: string | symbol) => {
-		defineObjectPropertyWithAssertion(
-			createAssertion(value),
-			target,
-			String(key)
-		);
-	};
+	return Validator(createAssertion(value));
 }

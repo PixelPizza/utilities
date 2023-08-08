@@ -1,5 +1,5 @@
-import { defineObjectPropertyWithAssertion } from "../utils";
 import { s } from "@sapphire/shapeshift";
+import { Validator } from "../basic/Validator";
 
 /**
  * A decorator that validates that the value is an integer.
@@ -19,5 +19,5 @@ import { s } from "@sapphire/shapeshift";
  * @see Number.isInteger
  */
 export function Int(target: unknown, key: string | symbol): void {
-	defineObjectPropertyWithAssertion(s.number.int, target, String(key));
+	Validator(s.number.int)(target as NonNullable<unknown>, key);
 }

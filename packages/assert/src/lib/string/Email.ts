@@ -1,5 +1,5 @@
-import { defineObjectPropertyWithAssertion } from "../utils";
 import { s } from "@sapphire/shapeshift";
+import { Validator } from "../basic/Validator";
 
 /**
  * A decorator that validates that the value is an email string.
@@ -18,5 +18,5 @@ import { s } from "@sapphire/shapeshift";
  * @since 1.0.0
  */
 export function Email(target: unknown, key: string): void {
-	defineObjectPropertyWithAssertion(s.string.email, target, key);
+	Validator(s.string.email)(target as NonNullable<unknown>, key);
 }

@@ -1,5 +1,5 @@
-import { defineObjectPropertyWithAssertion } from "../utils";
 import { s } from "@sapphire/shapeshift";
+import { Validator } from "./Validator";
 
 /**
  * Decorator that checks if the value is `true`.
@@ -18,5 +18,5 @@ import { s } from "@sapphire/shapeshift";
  * @since 1.0.0
  */
 export function IsTrue(target: unknown, key: string): void {
-	defineObjectPropertyWithAssertion(s.boolean.true, target, key);
+	Validator(s.boolean.true)(target as NonNullable<unknown>, key);
 }

@@ -1,5 +1,5 @@
-import { defineObjectPropertyWithAssertion } from "../utils";
 import { s, type UrlOptions } from "@sapphire/shapeshift";
+import { Validator } from "../basic/Validator";
 
 /**
  * A decorator that validates the decorated property is a string and a valid url
@@ -39,16 +39,10 @@ export function Url(
 	options: UrlOptions | unknown,
 	key?: string | symbol
 ): PropertyDecorator | void {
-	function decorate(target: unknown, key: string, options?: UrlOptions) {
-		defineObjectPropertyWithAssertion(s.string.url(options), target, key);
-	}
-
 	if (key) {
-		decorate(options, String(key));
+		Validator(s.string.url())(options as NonNullable<unknown>, key);
 		return;
 	}
 
-	return (target: unknown, key: string | symbol) => {
-		decorate(target, String(key), options as UrlOptions);
-	};
+	return Validator(s.string.url(options as UrlOptions));
 }

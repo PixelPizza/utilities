@@ -1,5 +1,5 @@
-import { defineObjectPropertyWithAssertion } from "../utils";
 import { s } from "@sapphire/shapeshift";
+import { Validator } from "../basic/Validator";
 
 /**
  * A decorator that validates that the value is a valid date.
@@ -18,5 +18,5 @@ import { s } from "@sapphire/shapeshift";
  * @since 1.0.0
  */
 export function ValidDate(target: unknown, key: string | symbol): void {
-	defineObjectPropertyWithAssertion(s.date.valid, target, String(key));
+	Validator(s.date.valid)(target as NonNullable<unknown>, key);
 }

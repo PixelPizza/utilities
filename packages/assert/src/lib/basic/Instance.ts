@@ -1,5 +1,5 @@
 import { type Constructor, s } from "@sapphire/shapeshift";
-import { defineObjectPropertyWithAssertion } from "../utils";
+import { Validator } from "./Validator";
 
 /**
  * Decorator that checks if the value is an instance of the given value.
@@ -17,11 +17,5 @@ import { defineObjectPropertyWithAssertion } from "../utils";
  * @since 1.0.0
  */
 export function Instance(expected: Constructor<unknown>): PropertyDecorator {
-	return (target: unknown, key: string | symbol) => {
-		defineObjectPropertyWithAssertion(
-			s.instance(expected),
-			target,
-			String(key)
-		);
-	};
+	return Validator(s.instance(expected));
 }

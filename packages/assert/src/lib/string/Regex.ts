@@ -1,8 +1,7 @@
 import { s } from "@sapphire/shapeshift";
-import { defineObjectPropertyWithAssertion } from "../utils";
+import { Validator } from "../basic/Validator";
 
 /**
- * TODO: check grammar
  * Creates a decorator that validates the decorated property adheres to the specified regex
  *
  * @example
@@ -19,11 +18,5 @@ import { defineObjectPropertyWithAssertion } from "../utils";
  * @since 1.0.0
  */
 export function Regex(regex: RegExp): PropertyDecorator {
-	return (target: unknown, key: string | symbol) => {
-		defineObjectPropertyWithAssertion(
-			s.string.regex(regex),
-			target,
-			String(key)
-		);
-	};
+	return Validator(s.string.regex(regex));
 }

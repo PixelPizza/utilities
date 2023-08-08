@@ -1,5 +1,5 @@
-import { defineObjectPropertyWithAssertion } from "../utils";
 import { s } from "@sapphire/shapeshift";
+import { Validator } from "../basic/Validator";
 
 /**
  * A decorator that validates that the value is a finite number.
@@ -19,5 +19,5 @@ import { s } from "@sapphire/shapeshift";
  * @see Number.isFinite
  */
 export function Finite(target: unknown, key: string | symbol): void {
-	defineObjectPropertyWithAssertion(s.number.finite, target, String(key));
+	Validator(s.number.finite)(target as NonNullable<unknown>, key);
 }

@@ -1,5 +1,5 @@
-import { defineObjectPropertyWithAssertion } from "../utils";
 import { s } from "@sapphire/shapeshift";
+import { Validator } from "../basic/Validator";
 
 /**
  * Creates a decorator that validates that the value is equal to the given value.
@@ -17,11 +17,5 @@ import { s } from "@sapphire/shapeshift";
  * @since 1.0.0
  */
 export function EqualTo(value: any): PropertyDecorator {
-	return (target: unknown, key: string | symbol) => {
-		defineObjectPropertyWithAssertion(
-			s.literal(value),
-			target,
-			String(key)
-		);
-	};
+	return Validator(s.literal(value));
 }

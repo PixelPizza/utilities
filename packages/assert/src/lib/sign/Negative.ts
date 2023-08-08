@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { defineObjectPropertyWithAssertion } from "../utils";
+import { Validator } from "../basic/Validator";
 
 /**
  * A decorator that validates that the value is a negative number or bigint.
@@ -17,9 +17,8 @@ import { defineObjectPropertyWithAssertion } from "../utils";
  * @since 1.0.0
  */
 export function Negative(target: unknown, key: string | symbol): void {
-	defineObjectPropertyWithAssertion(
-		s.number.negative.or(s.bigint.negative),
-		target,
-		String(key)
+	Validator(s.number.negative.or(s.bigint.negative))(
+		target as NonNullable<unknown>,
+		key
 	);
 }

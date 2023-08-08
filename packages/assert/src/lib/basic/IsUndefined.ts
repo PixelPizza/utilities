@@ -1,5 +1,5 @@
-import { defineObjectPropertyWithAssertion } from "../utils";
 import { s } from "@sapphire/shapeshift";
+import { Validator } from "./Validator";
 
 /**
  * Decorator that checks if the value is `undefined`.
@@ -17,5 +17,5 @@ import { s } from "@sapphire/shapeshift";
  * @since 1.0.0
  */
 export function IsUndefined(target: unknown, key: string): void {
-	defineObjectPropertyWithAssertion(s.undefined, target, key);
+	Validator(s.undefined)(target as NonNullable<unknown>, key);
 }
