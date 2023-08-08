@@ -1,4 +1,4 @@
-import { Assert } from "../../../src";
+import { Assert } from "../../../src/index";
 import { ExpectedValidationError } from "@sapphire/shapeshift";
 
 describe("EqualTo tests", () => {

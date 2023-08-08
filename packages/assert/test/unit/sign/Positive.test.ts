@@ -1,4 +1,4 @@
-import { Assert } from "../../../src";
+import { Assert } from "../../../src/index";
 import {
 	CombinedError,
 	ExpectedConstraintError,
@@ -18,6 +18,7 @@ describe("Positive tests", () => {
 		}
 	);
 
+	// TODO: merge tests under this comment
 	test.each([-1, -32, -85])("GIVEN %s THEN throws", (value) => {
 		class Test {
 			@Assert.Positive

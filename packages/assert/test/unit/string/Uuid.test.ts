@@ -1,4 +1,4 @@
-import Assert from "../../../src";
+import Assert from "../../../src/index";
 import {
 	ExpectedConstraintError,
 	type StringUuidOptions
@@ -10,12 +10,6 @@ describe("Uuid tests", () => {
 			class Test {
 				@Assert.Uuid
 				public uuid = "ae1a26c4-c813-459d-9095-4ddf908ab514";
-			}
-
-			try {
-				new Test();
-			} catch (e) {
-				console.log(e);
 			}
 
 			expect(() => new Test()).not.toThrow();

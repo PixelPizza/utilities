@@ -1,4 +1,4 @@
-import Assert from "../../src";
+import Assert from "../../src/index";
 import { expect } from "vitest";
 import { ExpectedConstraintError } from "@sapphire/shapeshift";
 
