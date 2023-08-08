@@ -1,6 +1,6 @@
 import Assert from "../../../src/index";
 
-describe("Instance tests", () => {
+describe("Type decorator tests", () => {
 	test.each<
 		[
 			unknown,

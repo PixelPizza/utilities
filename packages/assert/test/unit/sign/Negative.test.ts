@@ -9,14 +9,6 @@ describe("Negative tests", () => {
 	test.each([-1, -32, -85, -1n, -32n, -85n])(
 		"GIVEN %s THEN does not throw",
 		(value) => {
-			try {
-				const target: { test?: unknown } = {};
-				Assert.Negative(target, "test");
-				target.test = "hey";
-			} catch (e) {
-				console.log(e);
-			}
-
 			class Test {
 				@Assert.Negative
 				public number = value;

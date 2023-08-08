@@ -1,7 +1,7 @@
 import Assert from "../../../src/index";
 import { ExpectedValidationError } from "@sapphire/shapeshift";
 
-describe("Instance tests", () => {
+describe("Instance decorator tests", () => {
 	test.each([
 		[new Date(), Date],
 		[new String(""), String],
