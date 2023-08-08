@@ -1,3 +1,4 @@
+export * from "./basic/Instance";
 export * from "./basic/IsFalse";
 export * from "./basic/IsNull";
 export * from "./basic/IsTrue";
