@@ -6,28 +6,22 @@ import {
 } from "@sapphire/shapeshift";
 
 describe("Negative tests", () => {
-	test("GIVEN negative number THEN does not throw", () => {
-		class Test {
-			@Assert.Negative
-			public number = -1;
+	test.each([-1, -32, -85, -1n, -32n, -85n])(
+		"GIVEN %s THEN does not throw",
+		(value) => {
+			class Test {
+				@Assert.Negative
+				public number = value;
+			}
+
+			expect(() => new Test()).not.toThrow();
 		}
+	);
 
-		expect(() => new Test()).not.toThrow();
-	});
-
-	test("GIVEN negative bigint THEN does not throw", () => {
+	test.each([0, 1, 32, 85])("GIVEN %s THEN throws", (value) => {
 		class Test {
 			@Assert.Negative
-			public bigint = -1n;
-		}
-
-		expect(() => new Test()).not.toThrow();
-	});
-
-	test("GIVEN positive number THEN throws", () => {
-		class Test {
-			@Assert.Negative
-			public number = 1;
+			public number = value;
 		}
 
 		expect(() => new Test()).toThrow(
@@ -35,22 +29,22 @@ describe("Negative tests", () => {
 				new ExpectedConstraintError(
 					"s.number.lessThan",
 					"Invalid number value",
-					1,
+					value,
 					"expected < 0"
 				),
 				new ValidationError(
 					"s.bigint",
 					"Expected a bigint primitive",
-					1
+					value
 				)
 			])
 		);
 	});
 
-	test("GIVEN positive bigint THEN throws", () => {
+	test.each([0n, 1n, 32n, 85n])("GIVEN %s THEN throws", (value) => {
 		class Test {
 			@Assert.Negative
-			public bigint = 1n;
+			public bigint = value;
 		}
 
 		expect(() => new Test()).toThrow(
@@ -58,59 +52,13 @@ describe("Negative tests", () => {
 				new ExpectedConstraintError(
 					"s.bigint.lessThan",
 					"Invalid bigint value",
-					1n,
+					value,
 					"expected < 0"
 				),
 				new ValidationError(
 					"s.number",
 					"Expected a number primitive",
-					1n
-				)
-			])
-		);
-	});
-
-	test("GIVEN zero number THEN throws", () => {
-		class Test {
-			@Assert.Negative
-			public number = 0;
-		}
-
-		expect(() => new Test()).toThrow(
-			new CombinedError([
-				new ExpectedConstraintError(
-					"s.number.lessThan",
-					"Invalid number value",
-					0,
-					"expected < 0"
-				),
-				new ValidationError(
-					"s.bigint",
-					"Expected a bigint primitive",
-					0
-				)
-			])
-		);
-	});
-
-	test("GIVEN zero bigint THEN throws", () => {
-		class Test {
-			@Assert.Negative
-			public bigint = 0n;
-		}
-
-		expect(() => new Test()).toThrow(
-			new CombinedError([
-				new ExpectedConstraintError(
-					"s.bigint.lessThan",
-					"Invalid bigint value",
-					0n,
-					"expected < 0"
-				),
-				new ValidationError(
-					"s.number",
-					"Expected a number primitive",
-					0n
+					value
 				)
 			])
 		);

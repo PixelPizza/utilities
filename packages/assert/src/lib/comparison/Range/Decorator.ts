@@ -8,6 +8,23 @@ export function Range(max: number): PropertyDecorator;
 export function Range(max: bigint): PropertyDecorator;
 export function Range(min: number, max: number): PropertyDecorator;
 export function Range(min: bigint, max: bigint): PropertyDecorator;
+/**
+ * @internal This overload is only used for testing
+ */
+export function Range<T extends number | bigint>(
+	options: RangeOptions<T>
+): PropertyDecorator;
+/**
+ * @internal This overload is only used for testing
+ */
+export function Range<T extends number | bigint>(max: T): PropertyDecorator;
+/**
+ * @internal This overload is only used for testing
+ */
+export function Range<T extends number | bigint>(
+	min: T,
+	max: T
+): PropertyDecorator;
 export function Range<T extends number | bigint>(
 	options: T | RangeOptions<T>,
 	max?: T

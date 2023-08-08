@@ -11,34 +11,30 @@ describe("IsFalse tests", () => {
 		expect(() => new TestClass()).not.toThrow();
 	});
 
-	test("GIVEN true THEN throws", () => {
-		class TestClass {
-			@Assert.IsFalse
-			public testAttribute = true;
-		}
-
-		expect(() => new TestClass()).toThrow(
-			new ExpectedConstraintError(
-				"s.boolean.true",
+	test.each([
+		{
+			value: true,
+			error: new ExpectedConstraintError(
+				"s.boolean.false",
 				"Invalid boolean value",
 				true,
 				"false"
 			)
-		);
-	});
-
-	test("GIVEN null THEN throws", () => {
-		class TestClass {
-			@Assert.IsFalse
-			public testAttribute = null;
-		}
-
-		expect(() => new TestClass()).toThrow(
-			new ValidationError(
+		},
+		{
+			value: null,
+			error: new ValidationError(
 				"s.boolean",
 				"Expected a boolean primitive",
 				null
 			)
-		);
+		}
+	])(`GIVEN $value THEN throws $error`, ({ value, error }) => {
+		class TestClass {
+			@Assert.IsFalse
+			public testAttribute = value;
+		}
+
+		expect(() => new TestClass()).toThrow(error);
 	});
 });

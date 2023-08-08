@@ -6,28 +6,22 @@ import {
 } from "@sapphire/shapeshift";
 
 describe("Positive tests", () => {
-	test("GIVEN positive number THEN does not throw", () => {
-		class Test {
-			@Assert.Positive
-			public number = 1;
+	test.each([0, 1, 32, 85, 0n, 1n, 32n, 85n])(
+		"GIVEN %s THEN does not throw",
+		(value) => {
+			class Test {
+				@Assert.Positive
+				public number = value;
+			}
+
+			expect(() => new Test()).not.toThrow();
 		}
+	);
 
-		expect(() => new Test()).not.toThrow();
-	});
-
-	test("GIVEN positive bigint THEN does not throw", () => {
+	test.each([-1, -32, -85])("GIVEN %s THEN throws", (value) => {
 		class Test {
 			@Assert.Positive
-			public bigint = 1n;
-		}
-
-		expect(() => new Test()).not.toThrow();
-	});
-
-	test("GIVEN negative number THEN throws", () => {
-		class Test {
-			@Assert.Positive
-			public number = -1;
+			public number = value;
 		}
 
 		expect(() => new Test()).toThrow(
@@ -35,22 +29,22 @@ describe("Positive tests", () => {
 				new ExpectedConstraintError(
 					"s.number.greaterThanOrEqual",
 					"Invalid number value",
-					-1,
+					value,
 					"expected >= 0"
 				),
 				new ValidationError(
 					"s.bigint",
 					"Expected a bigint primitive",
-					-1
+					value
 				)
 			])
 		);
 	});
 
-	test("GIVEN negative bigint THEN throws", () => {
+	test.each([-1n, -32n, -85n])("GIVEN %s THEN throws", (value) => {
 		class Test {
 			@Assert.Positive
-			public bigint = -1n;
+			public bigint = value;
 		}
 
 		expect(() => new Test()).toThrow(
@@ -58,33 +52,15 @@ describe("Positive tests", () => {
 				new ExpectedConstraintError(
 					"s.bigint.greaterThanOrEqual",
 					"Invalid bigint value",
-					-1n,
+					value,
 					"expected >= 0"
 				),
 				new ValidationError(
 					"s.number",
 					"Expected a number primitive",
-					-1n
+					value
 				)
 			])
 		);
-	});
-
-	test("GIVEN zero number THEN does not throw", () => {
-		class Test {
-			@Assert.Positive
-			public number = 0;
-		}
-
-		expect(() => new Test()).not.toThrow();
-	});
-
-	test("GIVEN zero bigint THEN does not throw", () => {
-		class Test {
-			@Assert.Positive
-			public bigint = 0n;
-		}
-
-		expect(() => new Test()).not.toThrow();
 	});
 });

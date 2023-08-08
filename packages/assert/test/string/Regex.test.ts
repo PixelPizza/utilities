@@ -2,27 +2,36 @@ import { Assert } from "../../src";
 import { ExpectedConstraintError, ValidationError } from "@sapphire/shapeshift";
 
 describe("Regex tests", () => {
-	test("GIVEN valid regex THEN does not throw", () => {
+	test.each([
+		["test", /test/],
+		["test", /test/i],
+		["12345", /\d+/]
+	])("GIVEN %s with regex %s THEN does not throw", (value, regex) => {
 		class Test {
-			@Assert.Regex(/test/)
-			public prop = "test";
+			@Assert.Regex(regex)
+			public prop = value;
 		}
 
 		expect(() => new Test()).not.toThrow();
 	});
 
-	test("GIVEN invalid regex THEN throws", () => {
+	test.each([
+		["invalid", /test/],
+		["invalid", /test/i],
+		["invalid", /\d+/],
+		["12345", /[^0-9]+/]
+	])("GIVEN %s with regex %s THEN throws", (value, regex) => {
 		class Test {
-			@Assert.Regex(/test/)
-			public prop = "invalid";
+			@Assert.Regex(regex)
+			public prop = value;
 		}
 
 		expect(() => new Test()).toThrow(
 			new ExpectedConstraintError(
 				"s.string.regex",
 				"Invalid string format",
-				"invalid",
-				"expected /test/.test(expected) to be true"
+				value,
+				`expected ${regex}.test(expected) to be true`
 			)
 		);
 	});

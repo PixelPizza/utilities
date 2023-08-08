@@ -2,26 +2,34 @@ import Assert from "../../src";
 import { ExpectedConstraintError } from "@sapphire/shapeshift";
 
 describe("InvalidDate tests", () => {
-	test("GIVEN invalid date THEN does not throw", () => {
-		class Test {
-			@Assert.InvalidDate
-			public date: Date = new Date("invalid");
+	test.each([new Date("invalid"), "invalid", Infinity, NaN])(
+		"GIVEN %s THEN does not throw",
+		(date) => {
+			class Test {
+				@Assert.InvalidDate
+				public date = new Date(date);
+			}
+
+			expect(() => new Test()).not.toThrow();
 		}
+	);
 
-		expect(() => new Test()).not.toThrow();
-	});
-
-	test("GIVEN valid date THEN throws", () => {
+	test.each([
+		new Date(),
+		Date.now(),
+		"2020-01-01T00:00:00.000Z",
+		"2020-01-01T00:00:00.000+00:00"
+	])("GIVEN %s THEN throws", (date) => {
 		class Test {
 			@Assert.InvalidDate
-			public date: Date = new Date();
+			public date: Date = new Date(date);
 		}
 
 		expect(() => new Test()).toThrow(
 			new ExpectedConstraintError(
 				"s.date.invalid",
 				"Invalid Date value",
-				"2023-08-07T19:08:32.034Z",
+				new Date(date),
 				"expected === NaN"
 			)
 		);

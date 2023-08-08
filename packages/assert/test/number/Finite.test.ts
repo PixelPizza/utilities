@@ -2,26 +2,28 @@ import { Assert } from "../../src";
 import { ExpectedConstraintError } from "@sapphire/shapeshift";
 
 describe("Finite tests", () => {
-	test("GIVEN a finite number THEN does not throw", () => {
+	test.each([
+		-4359853954853409, -4343, -84, -1, 0, 1, 84, 4343, 4359853954853409
+	])("GIVEN %i THEN does not throw", (value) => {
 		class Test {
 			@Assert.Finite
-			public number = 4359853954853409;
+			public number = value;
 		}
 
 		expect(() => new Test()).not.toThrow();
 	});
 
-	test("GIVEN a non-finite number THEN throws", () => {
+	test.each([Infinity, NaN])("GIVEN %s THEN throws", (value) => {
 		class Test {
 			@Assert.Finite
-			public number = Infinity;
+			public number = value;
 		}
 
 		expect(() => new Test()).toThrow(
 			new ExpectedConstraintError(
 				"s.number.finite",
 				"Given value is not finite",
-				Infinity,
+				value,
 				"Number.isFinite(expected) to be true"
 			)
 		);

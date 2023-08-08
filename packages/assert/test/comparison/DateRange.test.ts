@@ -3,179 +3,258 @@ import { ExpectedConstraintError } from "@sapphire/shapeshift";
 
 describe("DateRange tests", () => {
 	describe("Max tests", () => {
-		test("GIVEN date with valid max THEN does not throw", () => {
+		test.each([
+			[new Date(2020, 1, 1), new Date(2020, 1, 1)],
+			[new Date(2020, 1, 1), new Date(2020, 1, 2)],
+			[new Date(2020, 1, 1), new Date(2020, 2, 1)],
+			[new Date(2020, 1, 1), new Date(2021, 1, 1)]
+		])("GIVEN %s with max %s THEN does not throw", (value, maxDate) => {
 			class Test {
-				@Assert.DateRange(new Date(2020, 1, 1))
-				public value = new Date(2020, 1, 1);
+				@Assert.DateRange(maxDate)
+				public value = value;
 			}
 
 			expect(() => new Test()).not.toThrow();
 		});
 
-		test("GIVEN date with invalid max THEN throws", () => {
+		test.each([
+			[new Date(2020, 1, 2), new Date(2020, 1, 1)],
+			[new Date(2020, 1, 1), new Date(2020, 0, 1)]
+		])("GIVEN %s with max %s THEN throws", (value, maxDate) => {
 			class Test {
-				@Assert.DateRange(new Date(2020, 1, 1))
-				public value = new Date(2020, 1, 2);
+				@Assert.DateRange(maxDate)
+				public value = value;
 			}
 
 			expect(() => new Test()).toThrow(
 				new ExpectedConstraintError(
 					"s.date.lessThanOrEqual",
 					"Invalid Date value",
-					"2020-02-01T23:00:00.000Z",
-					"expected <= 2020-01-31T23:00:00.000Z"
+					value,
+					`expected <= ${maxDate}`
 				)
 			);
 		});
 	});
 
 	describe("Min/Max tests", () => {
-		test("GIVEN date with valid min/max THEN does not throw", () => {
-			class Test {
-				@Assert.DateRange(new Date(2020, 1, 1), new Date(2020, 1, 10))
-				public value = new Date(2020, 1, 5);
+		test.each([
+			[new Date(2020, 1, 5), new Date(2020, 1, 1), new Date(2020, 1, 10)],
+			[
+				new Date(2001, 10, 12),
+				new Date(2001, 10, 11),
+				new Date(2001, 10, 13)
+			],
+			[new Date(2006, 9, 3), new Date(2006, 9, 3), new Date(2006, 9, 3)]
+		])(
+			"GIVEN %s with min %s and max %s THEN does not throw",
+			(value, minDate, maxDate) => {
+				class Test {
+					@Assert.DateRange(minDate, maxDate)
+					public value = value;
+				}
+
+				expect(() => new Test()).not.toThrow();
 			}
+		);
 
-			expect(() => new Test()).not.toThrow();
-		});
+		test.each([
+			[new Date(2020, 1, 0), new Date(2020, 1, 1), new Date(2020, 1, 10)],
+			[new Date(2001, 1, 1), new Date(2001, 2, 1), new Date(2001, 2, 2)]
+		])(
+			"GIVEN %s with min %s and max %s THEN throws",
+			(value, minDate, maxDate) => {
+				class Test {
+					@Assert.DateRange(minDate, maxDate)
+					public value = value;
+				}
 
-		test("GIVEN date with invalid min THEN throws", () => {
-			class Test {
-				@Assert.DateRange(new Date(2020, 1, 1), new Date(2020, 1, 10))
-				public value = new Date(2020, 1, 0);
+				expect(() => new Test()).toThrow(
+					new ExpectedConstraintError(
+						"s.date.greaterThanOrEqual",
+						"Invalid Date value",
+						value,
+						`expected >= ${minDate}`
+					)
+				);
 			}
+		);
 
-			expect(() => new Test()).toThrow(
-				new ExpectedConstraintError(
-					"s.date.greaterThanOrEqual",
-					"Invalid Date value",
-					"2020-01-30T23:00:00.000Z",
-					"expected >= 2020-01-31T23:00:00.000Z"
-				)
-			);
-		});
+		test.each([
+			[
+				new Date(2020, 1, 11),
+				new Date(2020, 1, 1),
+				new Date(2020, 1, 10)
+			],
+			[new Date(2001, 1, 1), new Date(2001, 0, 1), new Date(2001, 0, 2)]
+		])(
+			"GIVEN %s with min %s and max %s THEN throws",
+			(value, minDate, maxDate) => {
+				class Test {
+					@Assert.DateRange(minDate, maxDate)
+					public value = value;
+				}
 
-		test("GIVEN date with invalid max THEN throws", () => {
-			class Test {
-				@Assert.DateRange(new Date(2020, 1, 1), new Date(2020, 1, 10))
-				public value = new Date(2020, 1, 11);
+				expect(() => new Test()).toThrow(
+					new ExpectedConstraintError(
+						"s.date.lessThanOrEqual",
+						"Invalid Date value",
+						value,
+						`expected <= ${maxDate}`
+					)
+				);
 			}
-
-			expect(() => new Test()).toThrow(
-				new ExpectedConstraintError(
-					"s.date.lessThanOrEqual",
-					"Invalid Date value",
-					"2020-02-10T23:00:00.000Z",
-					"expected <= 2020-02-09T23:00:00.000Z"
-				)
-			);
-		});
+		);
 	});
 
 	describe("Options tests", () => {
 		describe("Equal tests", () => {
-			test("GIVEN date with valid equal THEN does not throw", () => {
+			test.each([
+				[new Date(2020, 1, 1), new Date(2020, 1, 1)],
+				[new Date(2001, 11, 30), new Date(2001, 11, 30)],
+				[new Date(1999, 4, 12), new Date(1999, 4, 12)]
+			])("GIVEN %s with equal %s THEN does not throw", (date, equal) => {
 				class Test {
-					@Assert.DateRange({ equal: new Date(2020, 1, 1) })
-					public value = new Date(2020, 1, 1);
+					@Assert.DateRange({ equal })
+					public value = date;
 				}
 
 				expect(() => new Test()).not.toThrow();
 			});
 
-			test("GIVEN date with invalid equal THEN throws", () => {
+			test.each([
+				[new Date(2020, 1, 2), new Date(2020, 1, 1)],
+				[new Date(2001, 11, 30), new Date(1999, 4, 12)],
+				[new Date(1999, 4, 12), new Date(2001, 11, 30)]
+			])("GIVEN %s with equal %s THEN throws", (date, equal) => {
 				class Test {
-					@Assert.DateRange({ equal: new Date(2020, 1, 1) })
-					public value = new Date(2020, 1, 2);
+					@Assert.DateRange({ equal })
+					public value = date;
 				}
 
 				expect(() => new Test()).toThrow(
 					new ExpectedConstraintError(
 						"s.date.equal",
 						"Invalid Date value",
-						"2020-02-01T23:00:00.000Z",
-						"expected === 2020-01-31T23:00:00.000Z"
+						date,
+						`expected === ${equal}`
 					)
 				);
 			});
 		});
 
 		describe("NotEqual tests", () => {
-			test("GIVEN date with valid not equal THEN does not throw", () => {
-				class Test {
-					@Assert.DateRange({ notEqual: new Date(2020, 1, 1) })
-					public value = new Date(2020, 1, 2);
+			test.each([
+				[new Date(2020, 1, 2), new Date(2020, 1, 1)],
+				[new Date(2001, 11, 30), new Date(1999, 4, 12)],
+				[new Date(1999, 4, 12), new Date(2001, 11, 30)]
+			])(
+				"GIVEN %s with not equal %s THEN does not throw",
+				(date, notEqual) => {
+					class Test {
+						@Assert.DateRange({ notEqual })
+						public value = date;
+					}
+
+					expect(() => new Test()).not.toThrow();
 				}
+			);
 
-				expect(() => new Test()).not.toThrow();
-			});
-
-			test("GIVEN date with invalid not equal THEN throws", () => {
+			test.each([
+				[new Date(2020, 1, 1), new Date(2020, 1, 1)],
+				[new Date(2001, 11, 30), new Date(2001, 11, 30)],
+				[new Date(1999, 4, 12), new Date(1999, 4, 12)]
+			])("GIVEN %s with not equal %s THEN throws", (date, notEqual) => {
 				class Test {
-					@Assert.DateRange({ notEqual: new Date(2020, 1, 1) })
-					public value = new Date(2020, 1, 1);
+					@Assert.DateRange({ notEqual })
+					public value = date;
 				}
 
 				expect(() => new Test()).toThrow(
 					new ExpectedConstraintError(
 						"s.date.notEqual",
 						"Invalid Date value",
-						"2020-01-31T23:00:00.000Z",
-						"expected !== 2020-01-31T23:00:00.000Z"
+						date,
+						`expected !== ${notEqual}`
 					)
 				);
 			});
 		});
 
 		describe("GreaterThan tests", () => {
-			test("GIVEN date with valid greater than THEN does not throw", () => {
-				class Test {
-					@Assert.DateRange({ greaterThan: new Date(2020, 1, 1) })
-					public value = new Date(2020, 1, 2);
+			test.each([
+				[new Date(2020, 1, 2), new Date(2020, 1, 1)],
+				[new Date(2001, 11, 30), new Date(1999, 4, 12)],
+				[new Date(2003, 9, 12), new Date(2000, 10, 12)]
+			])(
+				"GIVEN %s with greater than %s THEN does not throw",
+				(date, greaterThan) => {
+					class Test {
+						@Assert.DateRange({ greaterThan })
+						public value = date;
+					}
+
+					expect(() => new Test()).not.toThrow();
 				}
+			);
 
-				expect(() => new Test()).not.toThrow();
-			});
+			test.each([
+				[new Date(2020, 1, 1), new Date(2020, 1, 1)],
+				[new Date(2001, 11, 30), new Date(2001, 11, 31)],
+				[new Date(1999, 4, 12), new Date(2003, 9, 12)]
+			])(
+				"GIVEN %s with greater than %s THEN throws",
+				(date, greaterThan) => {
+					class Test {
+						@Assert.DateRange({ greaterThan })
+						public value = date;
+					}
 
-			test("GIVEN date with invalid greater than THEN throws", () => {
-				class Test {
-					@Assert.DateRange({ greaterThan: new Date(2020, 1, 1) })
-					public value = new Date(2020, 1, 1);
+					expect(() => new Test()).toThrow(
+						new ExpectedConstraintError(
+							"s.date.greaterThan",
+							"Invalid Date value",
+							date,
+							`expected > ${greaterThan}`
+						)
+					);
 				}
-
-				expect(() => new Test()).toThrow(
-					new ExpectedConstraintError(
-						"s.date.greaterThan",
-						"Invalid Date value",
-						"2020-01-31T23:00:00.000Z",
-						"expected > 2020-01-31T23:00:00.000Z"
-					)
-				);
-			});
+			);
 		});
 
 		describe("LessThan tests", () => {
-			test("GIVEN date with valid less than THEN does not throw", () => {
-				class Test {
-					@Assert.DateRange({ lessThan: new Date(2020, 1, 1) })
-					public value = new Date(2020, 0, 31);
+			test.each([
+				[new Date(2020, 0, 31), new Date(2020, 1, 1)],
+				[new Date(1999, 4, 12), new Date(2001, 11, 30)],
+				[new Date(2003, 9, 12), new Date(2003, 9, 13)]
+			])(
+				"GIVEN %s with less than %s THEN does not throw",
+				(date, lessThan) => {
+					class Test {
+						@Assert.DateRange({ lessThan })
+						public value = date;
+					}
+
+					expect(() => new Test()).not.toThrow();
 				}
+			);
 
-				expect(() => new Test()).not.toThrow();
-			});
-
-			test("GIVEN date with invalid less than THEN throws", () => {
+			test.each([
+				[new Date(2020, 1, 1), new Date(2020, 1, 1)],
+				[new Date(2001, 11, 30), new Date(1999, 4, 12)],
+				[new Date(2003, 9, 13), new Date(2003, 9, 12)]
+			])("GIVEN %s with less than %s THEN throws", (date, lessThan) => {
 				class Test {
-					@Assert.DateRange({ lessThan: new Date(2020, 1, 1) })
-					public value = new Date(2020, 1, 1);
+					@Assert.DateRange({ lessThan })
+					public value = date;
 				}
 
 				expect(() => new Test()).toThrow(
 					new ExpectedConstraintError(
 						"s.date.lessThan",
 						"Invalid Date value",
-						"2020-01-31T23:00:00.000Z",
-						"expected < 2020-01-31T23:00:00.000Z"
+						date,
+						`expected < ${lessThan}`
 					)
 				);
 			});

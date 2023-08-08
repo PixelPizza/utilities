@@ -3,345 +3,340 @@ import { ExpectedConstraintError } from "@sapphire/shapeshift";
 
 describe("Range tests", () => {
 	describe("Max tests", () => {
-		test("GIVEN number with valid max THEN does not throw", () => {
+		test.each([
+			[1, 5],
+			[4, 5],
+			[5, 5],
+			[91, 93],
+			[231321231, 231321232],
+			[44.32, 44.5],
+			[1n, 5n],
+			[4n, 5n],
+			[5n, 5n],
+			[91n, 93n],
+			[231321231n, 231321232n]
+		])("GIVEN %s with max %s THEN does not throw", (value, maxValue) => {
 			class Test {
-				@Assert.Range(5)
-				public value = 1;
+				@Assert.Range(maxValue)
+				public value = value;
 			}
 
 			expect(() => new Test()).not.toThrow();
 		});
 
-		test("GIVEN bigint with valid max THEN does not throw", () => {
+		test.each([
+			[6, 5],
+			[3, 1],
+			[32, 11],
+			[3213, 1],
+			[34.32, 12.3],
+			[323.3, 12],
+			[6n, 5n],
+			[3n, 1n],
+			[32n, 11n],
+			[3213n, 1n]
+		])("GIVEN %s with max %s THEN throws", (value, maxValue) => {
 			class Test {
-				@Assert.Range(5n)
-				public value = 1n;
-			}
-
-			expect(() => new Test()).not.toThrow();
-		});
-
-		test("GIVEN number with invalid max THEN throws", () => {
-			class Test {
-				@Assert.Range(5)
-				public value = 6;
-			}
-
-			expect(() => new Test()).toThrow(
-				new ExpectedConstraintError(
-					"s.number.lessThanOrEqual",
-					"Invalid number value",
-					6,
-					"expected <= 5"
-				)
-			);
-		});
-
-		test("GIVEN bigint with invalid max THEN throws", () => {
-			class Test {
-				@Assert.Range(5n)
-				public value = 6n;
+				@Assert.Range(maxValue)
+				public value = value;
 			}
 
 			expect(() => new Test()).toThrow(
 				new ExpectedConstraintError(
-					"s.bigint.lessThanOrEqual",
-					"Invalid bigint value",
-					6n,
-					"expected <= 5n"
+					`s.${typeof value as "number" | "bigint"}.lessThanOrEqual`,
+					`Invalid ${typeof value} value`,
+					value,
+					`expected <= ${maxValue}`
 				)
 			);
 		});
 	});
 
 	describe("Min/Max tests", () => {
-		test("GIVEN number with valid min/max THEN does not throw", () => {
-			class Test {
-				@Assert.Range(5, 10)
-				public value = 6;
+		test.each([
+			[6, 5, 10],
+			[3, 3, 3],
+			[4332, 303, 329329],
+			[34242, 1, 342424432432],
+			[322.3, 300, 340],
+			[322.2, 322.1, 322.3],
+			[6n, 6n, 10n],
+			[3n, 3n, 3n],
+			[4332n, 303n, 329329n],
+			[34242n, 1n, 342424432432n]
+		])(
+			"GIVEN %s with min %s and max %s THEN does not throw",
+			(value, minValue, maxValue) => {
+				class Test {
+					@Assert.Range(minValue, maxValue)
+					public value = value;
+				}
+
+				expect(() => new Test()).not.toThrow();
 			}
+		);
 
-			expect(() => new Test()).not.toThrow();
-		});
+		test.each([
+			[4, 5, 10],
+			[33, 34, 34],
+			[30.1, 31, 31.1],
+			[30, 30.1, 30.1],
+			[12.3, 12.4, 12.5],
+			[4n, 5n, 10n],
+			[33n, 34n, 34n]
+		])(
+			"GIVEN %s with min %s and max %s THEN throws",
+			(value, minValue, maxValue) => {
+				class Test {
+					@Assert.Range(minValue, maxValue)
+					public value = value;
+				}
 
-		test("GIVEN bigint with valid min/max THEN does not throw", () => {
-			class Test {
-				@Assert.Range(5n, 10n)
-				public value = 6n;
+				expect(() => new Test()).toThrow(
+					new ExpectedConstraintError(
+						`s.${
+							typeof value as "number" | "bigint"
+						}.greaterThanOrEqual`,
+						`Invalid ${typeof value} value`,
+						value,
+						`expected >= ${minValue}`
+					)
+				);
 			}
+		);
 
-			expect(() => new Test()).not.toThrow();
-		});
+		test.each([
+			[11, 5, 10],
+			[33, 32, 32],
+			[33.3, 32, 33.2],
+			[11n, 5n, 10n],
+			[33n, 32n, 32n]
+		])(
+			"GIVEN number with invalid max THEN throws",
+			(value, minValue, maxValue) => {
+				class Test {
+					@Assert.Range(minValue, maxValue)
+					public value = value;
+				}
 
-		test("GIVEN number with invalid min THEN throws", () => {
-			class Test {
-				@Assert.Range(5, 10)
-				public value = 4;
+				expect(() => new Test()).toThrow(
+					new ExpectedConstraintError(
+						`s.${
+							typeof value as "number" | "bigint"
+						}.lessThanOrEqual`,
+						`Invalid ${typeof value} value`,
+						value,
+						`expected <= ${maxValue}`
+					)
+				);
 			}
-
-			expect(() => new Test()).toThrow(
-				new ExpectedConstraintError(
-					"s.number.greaterThanOrEqual",
-					"Invalid number value",
-					4,
-					"expected >= 5"
-				)
-			);
-		});
-
-		test("GIVEN bigint with invalid min THEN throws", () => {
-			class Test {
-				@Assert.Range(5n, 10n)
-				public value = 4n;
-			}
-
-			expect(() => new Test()).toThrow(
-				new ExpectedConstraintError(
-					"s.bigint.greaterThanOrEqual",
-					"Invalid bigint value",
-					4n,
-					"expected >= 5n"
-				)
-			);
-		});
-
-		test("GIVEN number with invalid max THEN throws", () => {
-			class Test {
-				@Assert.Range(5, 10)
-				public value = 11;
-			}
-
-			expect(() => new Test()).toThrow(
-				new ExpectedConstraintError(
-					"s.number.lessThanOrEqual",
-					"Invalid number value",
-					11,
-					"expected <= 10"
-				)
-			);
-		});
-
-		test("GIVEN bigint with invalid max THEN throws", () => {
-			class Test {
-				@Assert.Range(5n, 10n)
-				public value = 11n;
-			}
-
-			expect(() => new Test()).toThrow(
-				new ExpectedConstraintError(
-					"s.bigint.lessThanOrEqual",
-					"Invalid bigint value",
-					11n,
-					"expected <= 10n"
-				)
-			);
-		});
+		);
 	});
 
 	describe("Options tests", () => {
 		describe("Equal tests", () => {
-			test("GIVEN number with valid equal THEN does not throw", () => {
+			test.each([
+				[5, 5],
+				[33, 33],
+				[32332, 32332],
+				[33.3, 33.3],
+				[5n, 5n],
+				[33n, 33n],
+				[32332n, 32332n]
+			])("GIVEN %s with equal %s THEN does not throw", (value, equal) => {
 				class Test {
-					@Assert.Range({ equal: 5 })
-					public value = 5;
+					@Assert.Range({ equal })
+					public value = value;
 				}
 
 				expect(() => new Test()).not.toThrow();
 			});
 
-			test("GIVEN bigint with valid equal THEN does not throw", () => {
+			test.each([
+				[6, 5],
+				[3, 1],
+				[32, 45],
+				[32234, 4343],
+				[32.3, 45.43],
+				[32.3, 32.4],
+				[32.3, 32.2],
+				[6n, 5n],
+				[3n, 1n],
+				[32n, 45n],
+				[32234n, 4343n]
+			])("GIVEN %s with equal %s THEN throws", (value, equal) => {
 				class Test {
-					@Assert.Range({ equal: 5n })
-					public value = 5n;
-				}
-
-				expect(() => new Test()).not.toThrow();
-			});
-
-			test("GIVEN number with invalid equal THEN throws", () => {
-				class Test {
-					@Assert.Range({ equal: 5 })
-					public value = 6;
-				}
-
-				expect(() => new Test()).toThrow(
-					new ExpectedConstraintError(
-						"s.number.equal",
-						"Invalid number value",
-						6,
-						"expected === 5"
-					)
-				);
-			});
-
-			test("GIVEN bigint with invalid equal THEN throws", () => {
-				class Test {
-					@Assert.Range({ equal: 5n })
-					public value = 6n;
+					@Assert.Range({ equal })
+					public value = value;
 				}
 
 				expect(() => new Test()).toThrow(
 					new ExpectedConstraintError(
-						"s.bigint.equal",
-						"Invalid bigint value",
-						6n,
-						"expected === 5n"
+						`s.${typeof value as "number" | "bigint"}.equal`,
+						`Invalid ${typeof value} value`,
+						value,
+						`expected === ${equal}`
 					)
 				);
 			});
 		});
 
 		describe("NotEqual tests", () => {
-			test("GIVEN number with valid not equal THEN does not throw", () => {
-				class Test {
-					@Assert.Range({ notEqual: 5 })
-					public value = 4;
+			test.each([
+				[4, 5],
+				[1, 3],
+				[33, 56],
+				[322323, 4334],
+				[33.3, 33.4],
+				[33.3, 33.2],
+				[4n, 5n],
+				[1n, 3n],
+				[33n, 56n],
+				[322323n, 4334n]
+			])(
+				"GIVEN %s with not equal %s THEN does not throw",
+				(value, notEqual) => {
+					class Test {
+						@Assert.Range({ notEqual })
+						public value = value;
+					}
+
+					expect(() => new Test()).not.toThrow();
 				}
+			);
 
-				expect(() => new Test()).not.toThrow();
-			});
-
-			test("GIVEN bigint with valid not equal THEN does not throw", () => {
+			test.each([
+				[5, 5],
+				[1, 1],
+				[33, 33],
+				[43234, 43234],
+				[33.3, 33.3],
+				[5n, 5n],
+				[1n, 1n],
+				[33n, 33n],
+				[43234n, 43234n]
+			])("GIVEN %s with not equal %s THEN throws", (value, notEqual) => {
 				class Test {
-					@Assert.Range({ notEqual: 5n })
-					public value = 4n;
-				}
-
-				expect(() => new Test()).not.toThrow();
-			});
-
-			test("GIVEN number with invalid not equal THEN throws", () => {
-				class Test {
-					@Assert.Range({ notEqual: 5 })
-					public value = 5;
+					@Assert.Range({ notEqual })
+					public value = value;
 				}
 
 				expect(() => new Test()).toThrow(
 					new ExpectedConstraintError(
-						"s.number.notEqual",
-						"Invalid number value",
-						5,
-						"expected !== 5"
-					)
-				);
-			});
-
-			test("GIVEN bigint with invalid not equal THEN throws", () => {
-				class Test {
-					@Assert.Range({ notEqual: 5n })
-					public value = 5n;
-				}
-
-				expect(() => new Test()).toThrow(
-					new ExpectedConstraintError(
-						"s.bigint.notEqual",
-						"Invalid bigint value",
-						5n,
-						"expected !== 5n"
+						`s.${typeof value as "number" | "bigint"}.notEqual`,
+						`Invalid ${typeof value} value`,
+						value,
+						`expected !== ${notEqual}`
 					)
 				);
 			});
 		});
 
 		describe("GreaterThan tests", () => {
-			test("GIVEN number with valid greater than THEN does not throw", () => {
-				class Test {
-					@Assert.Range({ greaterThan: 5 })
-					public value = 6;
+			test.each([
+				[6, 5],
+				[3, 1],
+				[43, 32],
+				[432342, 43244],
+				[33.3, 33.2],
+				[33.1, 33],
+				[6n, 5n],
+				[3n, 1n],
+				[43n, 32n],
+				[432342n, 43244n]
+			])(
+				"GIVEN %s with greater than %s THEN does not throw",
+				(value, greaterThan) => {
+					class Test {
+						@Assert.Range({ greaterThan })
+						public value = value;
+					}
+
+					expect(() => new Test()).not.toThrow();
 				}
+			);
 
-				expect(() => new Test()).not.toThrow();
-			});
+			test.each([
+				[5, 5],
+				[5, 6],
+				[1, 3],
+				[32, 43],
+				[43244, 432342],
+				[33.2, 33.3],
+				[33, 33.1],
+				[5n, 6n],
+				[1n, 3n],
+				[32n, 43n],
+				[43244n, 432342n]
+			])(
+				"GIVEN %s with greater than %s THEN throws",
+				(value, greaterThan) => {
+					class Test {
+						@Assert.Range({ greaterThan })
+						public value = value;
+					}
 
-			test("GIVEN bigint with valid greater than THEN does not throw", () => {
-				class Test {
-					@Assert.Range({ greaterThan: 5n })
-					public value = 6n;
+					expect(() => new Test()).toThrow(
+						new ExpectedConstraintError(
+							`s.${
+								typeof value as "number" | "bigint"
+							}.greaterThan`,
+							`Invalid ${typeof value} value`,
+							value,
+							`expected > ${greaterThan}`
+						)
+					);
 				}
-
-				expect(() => new Test()).not.toThrow();
-			});
-
-			test("GIVEN number with invalid greater than THEN throws", () => {
-				class Test {
-					@Assert.Range({ greaterThan: 5 })
-					public value = 5;
-				}
-
-				expect(() => new Test()).toThrow(
-					new ExpectedConstraintError(
-						"s.number.greaterThan",
-						"Invalid number value",
-						5,
-						"expected > 5"
-					)
-				);
-			});
-
-			test("GIVEN bigint with invalid greater than THEN throws", () => {
-				class Test {
-					@Assert.Range({ greaterThan: 5n })
-					public value = 5n;
-				}
-
-				expect(() => new Test()).toThrow(
-					new ExpectedConstraintError(
-						"s.bigint.greaterThan",
-						"Invalid bigint value",
-						5n,
-						"expected > 5n"
-					)
-				);
-			});
+			);
 		});
 
 		describe("LessThan tests", () => {
-			test("GIVEN number with valid less than THEN does not throw", () => {
-				class Test {
-					@Assert.Range({ lessThan: 5 })
-					public value = 4;
+			test.each([
+				[5, 6],
+				[1, 3],
+				[32, 43],
+				[43244, 432342],
+				[33.2, 33.3],
+				[33, 33.1],
+				[5n, 6n],
+				[1n, 3n],
+				[32n, 43n],
+				[43244n, 432342n]
+			])(
+				"GIVEN %s with less than %s THEN does not throw",
+				(value, lessThan) => {
+					class Test {
+						@Assert.Range({ lessThan })
+						public value = value;
+					}
+
+					expect(() => new Test()).not.toThrow();
 				}
+			);
 
-				expect(() => new Test()).not.toThrow();
-			});
-
-			test("GIVEN bigint with valid less than THEN does not throw", () => {
+			test.each([
+				[6, 5],
+				[3, 1],
+				[43, 32],
+				[432342, 43244],
+				[33.3, 33.2],
+				[33.1, 33],
+				[6n, 5n],
+				[3n, 1n],
+				[43n, 32n],
+				[432342n, 43244n]
+			])("GIVEN %s with less than %s THEN throws", (value, lessThan) => {
 				class Test {
-					@Assert.Range({ lessThan: 5n })
-					public value = 4n;
-				}
-
-				expect(() => new Test()).not.toThrow();
-			});
-
-			test("GIVEN number with invalid less than THEN throws", () => {
-				class Test {
-					@Assert.Range({ lessThan: 5 })
-					public value = 5;
+					@Assert.Range({ lessThan })
+					public value = value;
 				}
 
 				expect(() => new Test()).toThrow(
 					new ExpectedConstraintError(
-						"s.number.lessThan",
-						"Invalid number value",
-						5,
-						"expected < 5"
-					)
-				);
-			});
-
-			test("GIVEN bigint with invalid less than THEN throws", () => {
-				class Test {
-					@Assert.Range({ lessThan: 5n })
-					public value = 5n;
-				}
-
-				expect(() => new Test()).toThrow(
-					new ExpectedConstraintError(
-						"s.bigint.lessThan",
-						"Invalid bigint value",
-						5n,
-						"expected < 5n"
+						`s.${typeof value as "number" | "bigint"}.lessThan`,
+						`Invalid ${typeof value} value`,
+						value,
+						`expected < ${lessThan}`
 					)
 				);
 			});

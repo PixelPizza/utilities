@@ -2,43 +2,46 @@ import { Assert } from "../../src";
 import { ExpectedValidationError } from "@sapphire/shapeshift";
 
 describe("EqualTo tests", () => {
-	test("GIVEN 1, 1 THEN does not throw", () => {
+	test.each([
+		1,
+		"1",
+		true,
+		false,
+		null,
+		undefined,
+		Symbol("1"),
+		{},
+		() => {}
+	])("GIVEN %o THEN does not throw", (value: unknown) => {
 		class Test {
-			@Assert.EqualTo(1)
-			public value = 1;
+			@Assert.EqualTo(value)
+			public value = value;
 		}
 
 		expect(() => new Test()).not.toThrow();
 	});
 
-	test("GIVEN 1, 2 THEN throws", () => {
+	test.each([
+		[1, "1"],
+		[1, 2],
+		["1", "2"],
+		[1, true],
+		[false, "0"],
+		[true, false],
+		[null, undefined],
+		[Symbol("1"), Symbol("2")]
+	])("GIVEN %o, %o THEN throws", (value: unknown, expected: unknown) => {
 		class Test {
-			@Assert.EqualTo(2)
-			public value = 1;
+			@Assert.EqualTo(expected)
+			public value = value;
 		}
 
 		expect(() => new Test()).toThrow(
 			new ExpectedValidationError(
 				"s.literal(V)",
 				"Expected values to be equals",
-				1,
-				2
-			)
-		);
-	});
-
-	test("GIVEN '1', 1 THEN throws", () => {
-		class Test {
-			@Assert.EqualTo(1)
-			public value = "1";
-		}
-
-		expect(() => new Test()).toThrow(
-			new ExpectedValidationError(
-				"s.literal(V)",
-				"Expected values to be equals",
-				"1",
-				1
+				value,
+				expected
 			)
 		);
 	});
