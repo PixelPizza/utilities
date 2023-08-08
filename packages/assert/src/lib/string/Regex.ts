@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 /**
  * Creates a decorator that validates the decorated property adheres to the specified regex
@@ -18,5 +18,5 @@ import { Validator } from "../basic/Validator";
  * @since 1.0.0
  */
 export function Regex(regex: RegExp): PropertyDecorator {
-	return Validator(s.string.regex(regex));
+	return createDecorator(s.string.regex(regex));
 }

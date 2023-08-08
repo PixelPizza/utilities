@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 /**
  * A decorator that validates that the value is a safe integer.
@@ -18,6 +18,5 @@ import { Validator } from "../basic/Validator";
  * @since 1.0.0
  * @see Number.isSafeInteger
  */
-export function SafeInt(target: unknown, key: string | symbol): void {
-	Validator(s.number.safeInt)(target as NonNullable<unknown>, key);
-}
+export const SafeInt: PropertyDecorator = (target, key) =>
+	createDecorator(s.number.safeInt)(target, key);

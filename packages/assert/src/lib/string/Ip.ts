@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 /**
  * Creates a decorator that validates the decorated property is a valid ip-address.
@@ -40,8 +40,11 @@ export function Ip(
 	key?: string | symbol
 ): PropertyDecorator | void {
 	if (typeof targetOrVersion === "number") {
-		return Validator(s.string.ip(targetOrVersion as 4 | 6));
+		return createDecorator(s.string.ip(targetOrVersion as 4 | 6));
 	}
 
-	Validator(s.string.ip())(targetOrVersion as NonNullable<unknown>, key!);
+	createDecorator(s.string.ip())(
+		targetOrVersion as NonNullable<unknown>,
+		key!
+	);
 }

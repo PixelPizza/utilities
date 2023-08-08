@@ -1,5 +1,5 @@
 import { s, type StringUuidOptions } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 /**
  * A decorator that validates the decorated property is a string and a valid uuid v4
@@ -40,8 +40,11 @@ export function Uuid(
 	key?: string | symbol
 ): PropertyDecorator | void {
 	if (key) {
-		return Validator(s.string.uuid())(options as NonNullable<unknown>, key);
+		return createDecorator(s.string.uuid())(
+			options as NonNullable<unknown>,
+			key
+		);
 	}
 
-	return Validator(s.string.uuid(options as StringUuidOptions));
+	return createDecorator(s.string.uuid(options as StringUuidOptions));
 }

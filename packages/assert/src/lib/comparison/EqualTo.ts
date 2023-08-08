@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 /**
  * Creates a decorator that validates that the value is equal to the given value.
@@ -16,6 +16,6 @@ import { Validator } from "../basic/Validator";
  *
  * @since 1.0.0
  */
-export function EqualTo(value: any): PropertyDecorator {
-	return Validator(s.literal(value));
+export function EqualTo(value: any) {
+	return createDecorator(s.literal(value));
 }

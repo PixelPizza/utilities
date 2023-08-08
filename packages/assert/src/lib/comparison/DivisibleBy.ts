@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 function createAssertion(value: number | bigint) {
 	if (typeof value === "bigint") return s.bigint.divisibleBy(value);
@@ -22,6 +22,6 @@ function createAssertion(value: number | bigint) {
  *
  * @since 1.0.0
  */
-export function DivisibleBy(value: number | bigint): PropertyDecorator {
-	return Validator(createAssertion(value));
+export function DivisibleBy(value: number | bigint) {
+	return createDecorator(createAssertion(value));
 }

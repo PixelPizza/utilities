@@ -1,5 +1,5 @@
 import type { BaseValidator } from "@sapphire/shapeshift";
-import { defineObjectPropertyWithAssertion } from "../utils";
+import { createDecorator } from "../utils";
 
 /**
  * Creates a decorator that validates the decorated property adheres to the given validator.
@@ -17,7 +17,5 @@ import { defineObjectPropertyWithAssertion } from "../utils";
  * @since 1.0.0
  */
 export function Validator(validator: BaseValidator<any>): PropertyDecorator {
-	return (target: unknown, key: string | symbol) => {
-		defineObjectPropertyWithAssertion(validator, target, String(key));
-	};
+	return createDecorator(validator);
 }

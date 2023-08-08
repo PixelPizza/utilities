@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 /**
  * A decorator that validates that the value is an invalid date.
@@ -17,6 +17,5 @@ import { Validator } from "../basic/Validator";
  *
  * @since 1.0.0
  */
-export function InvalidDate(target: unknown, key: string | symbol): void {
-	Validator(s.date.invalid)(target as NonNullable<unknown>, key);
-}
+export const InvalidDate: PropertyDecorator = (target, key) =>
+	createDecorator(s.date.invalid)(target, key);

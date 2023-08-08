@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "./Validator";
+import { createDecorator } from "../utils";
 
 /**
  * Decorator that checks if the value is `false`.
@@ -17,6 +17,5 @@ import { Validator } from "./Validator";
  *
  * @since 1.0.0
  */
-export function IsFalse(target: unknown, key: string): void {
-	Validator(s.boolean.false)(target as NonNullable<unknown>, key);
-}
+export const IsFalse: PropertyDecorator = (target, key) =>
+	createDecorator(s.boolean.false)(target, key);

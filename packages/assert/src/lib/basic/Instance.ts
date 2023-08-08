@@ -1,5 +1,5 @@
 import { type Constructor, s } from "@sapphire/shapeshift";
-import { Validator } from "./Validator";
+import { createDecorator } from "../utils";
 
 /**
  * Decorator that checks if the value is an instance of the given value.
@@ -16,6 +16,6 @@ import { Validator } from "./Validator";
  *
  * @since 1.0.0
  */
-export function Instance(expected: Constructor<unknown>): PropertyDecorator {
-	return Validator(s.instance(expected));
+export function Instance(expected: Constructor<unknown>) {
+	return createDecorator(s.instance(expected));
 }

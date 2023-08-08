@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 /**
  * A decorator that validates that the value is a positive number or bigint.
@@ -16,9 +16,5 @@ import { Validator } from "../basic/Validator";
  *
  * @since 1.0.0
  */
-export function Positive(target: unknown, key: string | symbol): void {
-	Validator(s.number.positive.or(s.bigint.positive))(
-		target as NonNullable<unknown>,
-		key
-	);
-}
+export const Positive: PropertyDecorator = (target, key) =>
+	createDecorator(s.number.positive.or(s.bigint.positive))(target, key);

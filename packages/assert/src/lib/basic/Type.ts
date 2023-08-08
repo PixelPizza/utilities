@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { defineObjectPropertyWithAssertion } from "../utils";
+import { createDecorator } from "../utils";
 
 function getTypeAssertion(
 	type:
@@ -77,13 +77,6 @@ export function Type(
 		| "undefined"
 		| "object"
 		| "function"
-): PropertyDecorator {
-	return (target: unknown, key: string | symbol) => {
-		defineObjectPropertyWithAssertion(
-			getTypeAssertion(type),
-			target,
-			String(key),
-			getParseValueModifier(type)
-		);
-	};
+) {
+	return createDecorator(getTypeAssertion(type), getParseValueModifier(type));
 }

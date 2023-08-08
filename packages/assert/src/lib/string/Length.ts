@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 interface LengthOptions {
 	/**
@@ -123,5 +123,5 @@ export function Length(
 		return assertion;
 	}
 
-	return Validator(createAssertion());
+	return createDecorator(createAssertion());
 }

@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "./Validator";
+import { createDecorator } from "../utils";
 
 /**
  * Decorator that checks if the value is `null`.
@@ -16,6 +16,5 @@ import { Validator } from "./Validator";
  *
  * @since 1.0.0
  */
-export function IsNull(target: unknown, key: string): void {
-	Validator(s.null)(target as NonNullable<unknown>, key);
-}
+export const IsNull: PropertyDecorator = (target, key) =>
+	createDecorator(s.null)(target, key);

@@ -1,5 +1,5 @@
 import { s, type UrlOptions } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 /**
  * A decorator that validates the decorated property is a string and a valid url
@@ -40,9 +40,9 @@ export function Url(
 	key?: string | symbol
 ): PropertyDecorator | void {
 	if (key) {
-		Validator(s.string.url())(options as NonNullable<unknown>, key);
+		createDecorator(s.string.url())(options as NonNullable<unknown>, key);
 		return;
 	}
 
-	return Validator(s.string.url(options as UrlOptions));
+	return createDecorator(s.string.url(options as UrlOptions));
 }

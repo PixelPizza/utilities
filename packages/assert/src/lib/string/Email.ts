@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 /**
  * A decorator that validates that the value is an email string.
@@ -17,6 +17,5 @@ import { Validator } from "../basic/Validator";
  *
  * @since 1.0.0
  */
-export function Email(target: unknown, key: string): void {
-	Validator(s.string.email)(target as NonNullable<unknown>, key);
-}
+export const Email: PropertyDecorator = (target, key) =>
+	createDecorator(s.string.email)(target, key);

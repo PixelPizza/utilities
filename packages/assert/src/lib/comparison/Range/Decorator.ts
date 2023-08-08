@@ -1,7 +1,6 @@
-import { defineObjectPropertyWithAssertion } from "../../utils";
 import { createAssertion } from "./Assertion";
 import { createOptions, type RangeOptions } from "./RangeOptions";
-import { Validator } from "../../basic/Validator";
+import { createDecorator } from "../../utils";
 
 /**
  * Creates a decorator that validates the decorated property is a number within the specified range.
@@ -132,12 +131,12 @@ export function Range<T extends number | bigint>(
 	options: T | RangeOptions<T>,
 	max?: T
 ): PropertyDecorator {
-	return (target: unknown, key: string | symbol) => {
+	return (target, key) => {
 		const newOptions = createOptions(options, max);
 		const assertion = createAssertion(newOptions);
 
 		if (!assertion) return;
 
-		Validator(assertion)(target as NonNullable<unknown>, key);
+		createDecorator(assertion)(target, key);
 	};
 }

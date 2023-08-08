@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 type DateLike = Date | string | number;
 
@@ -88,49 +88,47 @@ export function DateRange(
 export function DateRange(
 	options: DateLike | DateRangeOptions,
 	max?: DateLike
-): PropertyDecorator {
-	return (target: unknown, key: string | symbol) => {
-		function createOptions(
-			options?: DateLike | DateRangeOptions,
-			max?: DateLike
-		): DateRangeOptions {
-			if (typeof options !== "object" || options instanceof Date) {
-				return max ? { min: options, max } : { max: options };
-			}
-			return options;
+) {
+	function createOptions(
+		options?: DateLike | DateRangeOptions,
+		max?: DateLike
+	): DateRangeOptions {
+		if (typeof options !== "object" || options instanceof Date) {
+			return max ? { min: options, max } : { max: options };
+		}
+		return options;
+	}
+
+	function createAssertion(options: DateRangeOptions) {
+		let assertion = s.date;
+
+		if (options.min) {
+			assertion = assertion.greaterThanOrEqual(options.min);
 		}
 
-		function createAssertion(options: DateRangeOptions) {
-			let assertion = s.date;
-
-			if (options.min) {
-				assertion = assertion.greaterThanOrEqual(options.min);
-			}
-
-			if (options.max) {
-				assertion = assertion.lessThanOrEqual(options.max);
-			}
-
-			if (options.equal) {
-				assertion = assertion.equal(options.equal);
-			}
-
-			if (options.notEqual) {
-				assertion = assertion.notEqual(options.notEqual);
-			}
-
-			if (options.greaterThan) {
-				assertion = assertion.greaterThan(options.greaterThan);
-			}
-
-			if (options.lessThan) {
-				assertion = assertion.lessThan(options.lessThan);
-			}
-
-			return assertion;
+		if (options.max) {
+			assertion = assertion.lessThanOrEqual(options.max);
 		}
 
-		const assertion = createAssertion(createOptions(options, max));
-		Validator(assertion)(target as NonNullable<unknown>, key);
-	};
+		if (options.equal) {
+			assertion = assertion.equal(options.equal);
+		}
+
+		if (options.notEqual) {
+			assertion = assertion.notEqual(options.notEqual);
+		}
+
+		if (options.greaterThan) {
+			assertion = assertion.greaterThan(options.greaterThan);
+		}
+
+		if (options.lessThan) {
+			assertion = assertion.lessThan(options.lessThan);
+		}
+
+		return assertion;
+	}
+
+	const assertion = createAssertion(createOptions(options, max));
+	return createDecorator(assertion);
 }

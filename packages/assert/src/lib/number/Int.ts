@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 /**
  * A decorator that validates that the value is an integer.
@@ -18,6 +18,5 @@ import { Validator } from "../basic/Validator";
  * @since 1.0.0
  * @see Number.isInteger
  */
-export function Int(target: unknown, key: string | symbol): void {
-	Validator(s.number.int)(target as NonNullable<unknown>, key);
-}
+export const Int: PropertyDecorator = (target, key) =>
+	createDecorator(s.number.int)(target, key);

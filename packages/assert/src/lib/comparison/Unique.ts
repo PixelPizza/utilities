@@ -1,5 +1,5 @@
 import { s } from "@sapphire/shapeshift";
-import { Validator } from "../basic/Validator";
+import { createDecorator } from "../utils";
 
 /**
  * A decorator that validates that the value is an array with unique values.
@@ -17,6 +17,5 @@ import { Validator } from "../basic/Validator";
  *
  * @since 1.0.0
  */
-export function Unique(target: unknown, key: string | symbol): void {
-	Validator(s.any.array.unique)(target as NonNullable<unknown>, key);
-}
+export const Unique: PropertyDecorator = (target, key) =>
+	createDecorator(s.any.array.unique)(target, key);
