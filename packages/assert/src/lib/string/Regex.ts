@@ -2,7 +2,7 @@ import { s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
 
 /**
- * Creates a decorator that validates the decorated property adheres to the specified regex
+ * Creates a decorator that validates the decorated property is a string that matches the given regular expression.
  *
  * @example
  * ```typescript
@@ -13,7 +13,7 @@ import { createDecorator } from "../utils";
  * ```
  *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a string.
- * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property does not adhere to the specified regex.
+ * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property does not match the regular expression.
  *
  * @since 1.0.0
  */
