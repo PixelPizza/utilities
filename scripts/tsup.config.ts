@@ -7,7 +7,7 @@ export const createTsupConfig = (options: Options = {}) =>
 		dts: true,
 		entry: ["src/index.ts"],
 		format: ["cjs", "esm"],
-		minify: true,
+		minify: false,
 		skipNodeModulesBundle: true,
 		sourcemap: true,
 		target: "es2021",
