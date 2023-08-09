@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@pixelpizza/assert@1.0.0](https://github.com/pixelpizza/utilities/compare/@pixelpizza/assert@0.1.0...@pixelpizza/assert@1.0.0)- (2023-08-09)
+
+## Features
+
+- @pixelpizza/assert (#9) ([888b5a6](https://github.com/pixelpizza/utilities/commit/888b5a6ebc4076d9b4789ca6f763d8f96ea41572))
+- @pixelpizza/assert (#2) ([78c239d](https://github.com/pixelpizza/utilities/commit/78c239d3d74bb7de4085732e6ab70dba57916541))
+
 # [@pixelpizza/assert@0.1.0](https://github.com/pixelpizza/utilities/tree/@pixelpizza/assert@0.1.0)- (2023-07-30)
 
 ## Features
