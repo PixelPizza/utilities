@@ -1,6 +1,6 @@
 {
 	"name": "@pixelpizza/assert",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "Assertion decorators using shapeshift",
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
