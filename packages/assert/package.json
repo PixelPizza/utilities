@@ -35,7 +35,8 @@
 	"scripts": {
 		"test": "vitest run",
 		"lint": "eslint src test --ext ts --fix -c ../../.eslintrc",
-		"build": "tsup",
+		"build": "tsup && yarn build:typings",
+		"build:typings": "tsc -p src/tsconfig.json --emitDeclarationOnly --declarationMap false && node ../../scripts/gen-d-mts.mjs",
 		"bump": "cliff-jumper",
 		"check-update": "cliff-jumper --dry-run",
 		"prepack": "yarn build"
