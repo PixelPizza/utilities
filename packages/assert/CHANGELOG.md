@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@pixelpizza/assert@1.1.1](https://github.com/pixelpizza/utilities/compare/@pixelpizza/assert@1.1.0...@pixelpizza/assert@1.1.1)- (2023-08-12)
+
+## Bug Fixes
+
+- Use global config when config undefined ([8d12589](https://github.com/pixelpizza/utilities/commit/8d125894bcc342fa765472c143b51e5a9ef90f08))
+
 # [@pixelpizza/assert@1.1.0](https://github.com/pixelpizza/utilities/compare/@pixelpizza/assert@1.0.1...@pixelpizza/assert@1.1.0)- (2023-08-12)
 
 ## Documentation
