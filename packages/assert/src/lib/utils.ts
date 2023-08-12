@@ -35,9 +35,11 @@ function defineObjectPropertyWithAssertion(
 	assertion: BaseValidator<any>,
 	target: unknown,
 	key: string,
-	assertionEnabled: boolean = getGlobalAssertionEnabled(),
+	assertionEnabled?: boolean,
 	modifyParseValue?: <T>(value: T) => T
 ) {
+	assertionEnabled ??= getGlobalAssertionEnabled();
+
 	const property = Object.getOwnPropertyDescriptor(target, key);
 
 	let value: any;
