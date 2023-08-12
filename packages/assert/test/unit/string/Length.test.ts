@@ -3,7 +3,7 @@ import { ExpectedConstraintError, ValidationError } from "@sapphire/shapeshift";
 
 describe("Length tests", () => {
 	describe("Max tests", () => {
-		test.each([
+		test.each<[string, number]>([
 			["12345", 5],
 			["1234", 4],
 			["123", 10],
@@ -19,7 +19,7 @@ describe("Length tests", () => {
 			expect(() => new Test()).not.toThrow();
 		});
 
-		test.each([
+		test.each<[string, number]>([
 			["123456", 5],
 			["123456789", 5],
 			["123456789", 8],
@@ -42,7 +42,7 @@ describe("Length tests", () => {
 	});
 
 	describe("Min/Max tests", () => {
-		test.each([
+		test.each<[string, number, number]>([
 			["123456", 5, 10],
 			["123456789", 5, 10],
 			["1234567890", 8, 10],
@@ -60,7 +60,7 @@ describe("Length tests", () => {
 			}
 		);
 
-		test.each([
+		test.each<[string, number, number]>([
 			["1234", 5, 10],
 			["123", 4, 5],
 			["", 1, 1]
@@ -83,7 +83,7 @@ describe("Length tests", () => {
 			}
 		);
 
-		test.each([
+		test.each<[string, number, number]>([
 			["12345678901", 5, 10],
 			["12", 1, 1],
 			["4234322545452354534535", 1, 12]
@@ -109,7 +109,7 @@ describe("Length tests", () => {
 
 	describe("Options tests", () => {
 		describe("Equal tests", () => {
-			test.each([
+			test.each<[string, number]>([
 				["12345", 5],
 				["1", 1],
 				["", 0],
@@ -124,7 +124,7 @@ describe("Length tests", () => {
 				expect(() => new Test()).not.toThrow();
 			});
 
-			test.each([
+			test.each<[string, number]>([
 				["123456", 5],
 				["4243", 3],
 				["3312321", 11]
@@ -146,7 +146,7 @@ describe("Length tests", () => {
 		});
 
 		describe("NotEqual tests", () => {
-			test.each([
+			test.each<[string, number]>([
 				["123456", 5],
 				["", 1],
 				["12134", 6],
@@ -163,7 +163,7 @@ describe("Length tests", () => {
 				}
 			);
 
-			test.each([
+			test.each<[string, number]>([
 				["12345", 5],
 				["1", 1],
 				["313223232", 9],
@@ -186,7 +186,7 @@ describe("Length tests", () => {
 		});
 
 		describe("GreaterThan tests", () => {
-			test.each([
+			test.each<[string, number]>([
 				["123456", 5],
 				["1", 0],
 				["312312231", 8]
@@ -202,7 +202,7 @@ describe("Length tests", () => {
 				}
 			);
 
-			test.each([
+			test.each<[string, number]>([
 				["12345", 5],
 				["1", 1],
 				["132", 4],
@@ -228,7 +228,7 @@ describe("Length tests", () => {
 		});
 
 		describe("LessThan tests", () => {
-			test.each([
+			test.each<[string, number]>([
 				["1234", 5],
 				["1", 2],
 				["", 1],
@@ -247,7 +247,7 @@ describe("Length tests", () => {
 				}
 			);
 
-			test.each([
+			test.each<[string, number]>([
 				["12345", 5],
 				["123", 3],
 				["133232", 5]
@@ -265,6 +265,17 @@ describe("Length tests", () => {
 						`expected.length < ${lessThan}`
 					)
 				);
+			});
+		});
+
+		describe("Assertion disabled tests", () => {
+			test("GIVEN string with invalid length and assertion disabled THEN does not throw", () => {
+				class Test {
+					@Assert.Length({ min: 4, assertionEnabled: false })
+					public value = "123";
+				}
+
+				expect(() => new Test()).not.toThrow();
 			});
 		});
 	});

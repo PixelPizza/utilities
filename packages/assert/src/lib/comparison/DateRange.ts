@@ -1,9 +1,10 @@
 import { s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
+import type { AssertionOptions } from "../Assertion";
 
 type DateLike = Date | string | number;
 
-interface DateRangeOptions {
+interface DateRangeOptions extends AssertionOptions {
 	/**
 	 * The value must be greater than or equal to the given date.
 	 */
@@ -129,6 +130,7 @@ export function DateRange(
 		return assertion;
 	}
 
-	const assertion = createAssertion(createOptions(options, max));
-	return createDecorator(assertion);
+	const newOptions = createOptions(options, max);
+	const assertion = createAssertion(newOptions);
+	return createDecorator(assertion, newOptions.assertionEnabled);
 }

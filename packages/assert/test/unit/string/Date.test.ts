@@ -17,6 +17,15 @@ describe("Date tests", () => {
 		expect(() => new Test()).not.toThrow();
 	});
 
+	test("GIVEN invalid date with assertion disabled THEN does not throw", () => {
+		class Test {
+			@Assert.Date({ assertionEnabled: false })
+			public date: string = "invalid";
+		}
+
+		expect(() => new Test()).not.toThrow();
+	});
+
 	test.each(["invalid", "notadate", "2022-13-01", "0-01-32", "00:00:00"])(
 		"GIVEN %s THEN throws",
 		(value) => {

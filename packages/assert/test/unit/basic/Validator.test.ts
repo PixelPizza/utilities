@@ -7,20 +7,21 @@ describe("Validator decorator tests", () => {
 		B: "b"
 	} as const;
 
-	test.each([
+	test.each<[unknown, Parameters<typeof Assert.Validator>[0]]>([
 		[["a", "b"], s.array(s.string)],
 		["b", s.enum("a", "b", "c")],
-		[Enum.A, s.nativeEnum(Enum)]
-	])("GIVEN %o with %o THEN does not throw", (value, validator) => {
+		[Enum.A, s.nativeEnum(Enum)],
+		[1, { validator: s.number, assertionEnabled: false }]
+	])("GIVEN %o with %o THEN does not throw", (value, options) => {
 		class Test {
-			@Assert.Validator(validator)
+			@Assert.Validator(options)
 			public value = value;
 		}
 
 		expect(() => new Test()).not.toThrow();
 	});
 
-	test.each([
+	test.each<[unknown, Parameters<typeof Assert.Validator>[0]]>([
 		[["a", 1], s.array(s.string)],
 		["d", s.enum("a", "b", "c")],
 		["c", s.nativeEnum(Enum)]

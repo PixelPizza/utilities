@@ -1,23 +1,12 @@
-import { s, type UrlOptions } from "@sapphire/shapeshift";
+import {
+	s,
+	type UrlOptions as ShapeShiftUrlOptions
+} from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
+import type { AssertionOptions } from "../Assertion";
 
-/**
- * A decorator that validates the decorated property is a string and a valid url
- *
- * @example
- * ```typescript
- * class Example {
- *   @Url
- *   public url: string = "https://example.com";
- * }
- * ```
- *
- * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a string.
- * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not a valid url.
- *
- * @since 1.0.0
- */
-export function Url(target: unknown, key: string | symbol): void;
+interface UrlOptions extends ShapeShiftUrlOptions, AssertionOptions {}
+
 /**
  * Creates a decorator that validates the decorated property is a string and a valid url
  *
@@ -35,8 +24,25 @@ export function Url(target: unknown, key: string | symbol): void;
  * @since 1.0.0
  */
 export function Url(options: UrlOptions): PropertyDecorator;
+/**
+ * A decorator that validates the decorated property is a string and a valid url
+ *
+ * @example
+ * ```typescript
+ * class Example {
+ *   @Url
+ *   public url: string = "https://example.com";
+ * }
+ * ```
+ *
+ * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a string.
+ * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not a valid url.
+ *
+ * @since 1.0.0
+ */
+export function Url(target: NonNullable<unknown>, key: string | symbol): void;
 export function Url(
-	options: UrlOptions | unknown,
+	options: UrlOptions | NonNullable<unknown>,
 	key?: string | symbol
 ): PropertyDecorator | void {
 	if (key) {
@@ -44,5 +50,8 @@ export function Url(
 		return;
 	}
 
-	return createDecorator(s.string.url(options as UrlOptions));
+	return createDecorator(
+		s.string.url(options as UrlOptions),
+		(options as UrlOptions).assertionEnabled
+	);
 }

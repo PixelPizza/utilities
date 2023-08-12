@@ -11,6 +11,15 @@ describe("IsTrue tests", () => {
 		expect(() => new TestClass()).not.toThrow();
 	});
 
+	test("GIVEN false with assertion disabled THEN does not throw", () => {
+		class Test {
+			@Assert.IsTrue({ assertionEnabled: false })
+			public value = false;
+		}
+
+		expect(() => new Test()).not.toThrow();
+	});
+
 	test.each([
 		{
 			value: false,

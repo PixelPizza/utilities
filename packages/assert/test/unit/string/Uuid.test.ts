@@ -107,6 +107,17 @@ describe("Uuid tests", () => {
 		);
 	});
 
+	describe("Assertion disabled", () => {
+		test("GIVEN invalid UUID with assertion disabled THEN does not throw", () => {
+			class Test {
+				@Assert.Uuid({ assertionEnabled: false })
+				public uuid = "ae1a26c4-c813-459d-9095-4ddf908ab51";
+			}
+
+			expect(() => new Test()).not.toThrow();
+		});
+	});
+
 	describe("nullable", () => {
 		test("GIVEN 00000000-0000-0000-0000-000000000000 and nullable THEN does not throw", () => {
 			class Test {

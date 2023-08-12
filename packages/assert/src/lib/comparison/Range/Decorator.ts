@@ -137,6 +137,6 @@ export function Range<T extends number | bigint>(
 
 		if (!assertion) return;
 
-		createDecorator(assertion)(target, key);
+		createDecorator(assertion, newOptions.assertionEnabled)(target, key);
 	};
 }

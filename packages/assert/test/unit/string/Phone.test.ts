@@ -2,7 +2,7 @@ import { Assert } from "../../../src/index";
 import { ExpectedConstraintError } from "@sapphire/shapeshift";
 
 describe("Phone tests", () => {
-	test.each([
+	test.each<string>([
 		"1234567890",
 		"123-456-7890",
 		"123.456.7890",
@@ -22,7 +22,16 @@ describe("Phone tests", () => {
 		expect(() => new Test()).not.toThrow();
 	});
 
-	test.each([
+	test("GIVEN invalid phone with assertion disabled THEN does not throw", () => {
+		class Test {
+			@Assert.Phone({ assertionEnabled: false })
+			public phone = "123456789";
+		}
+
+		expect(() => new Test()).not.toThrow();
+	});
+
+	test.each<string>([
 		"123456789",
 		"123-456-789",
 		"123.456.789",

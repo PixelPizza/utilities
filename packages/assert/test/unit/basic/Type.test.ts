@@ -1,21 +1,7 @@
 import Assert from "../../../src/index";
 
 describe("Type decorator tests", () => {
-	test.each<
-		[
-			unknown,
-			(
-				| "string"
-				| "number"
-				| "bigint"
-				| "boolean"
-				| "symbol"
-				| "undefined"
-				| "object"
-				| "function"
-			)
-		]
-	>([
+	test.each<[unknown, Parameters<typeof Assert.Type>[0]]>([
 		["", "string"],
 		[1, "number"],
 		[1n, "bigint"],
@@ -24,31 +10,18 @@ describe("Type decorator tests", () => {
 		[undefined, "undefined"],
 		[{}, "object"],
 		[null, "object"],
-		[() => {}, "function"]
-	])("GIVEN %o, %s THEN does not throw", (value, type) => {
+		[() => {}, "function"],
+		["", { type: "number", assertionEnabled: false }]
+	])("GIVEN %o, %s THEN does not throw", (value, options) => {
 		class Test {
-			@Assert.Type(type)
+			@Assert.Type(options)
 			public value = value;
 		}
 
 		expect(() => new Test()).not.toThrow();
 	});
 
-	test.each<
-		[
-			unknown,
-			(
-				| "string"
-				| "number"
-				| "bigint"
-				| "boolean"
-				| "symbol"
-				| "undefined"
-				| "object"
-				| "function"
-			)
-		]
-	>([
+	test.each<[unknown, Parameters<typeof Assert.Type>[0]]>([
 		["", "object"],
 		["", "number"],
 		["", "boolean"],
@@ -60,9 +33,9 @@ describe("Type decorator tests", () => {
 		[{}, "undefined"],
 		[null, "number"],
 		[() => {}, "string"]
-	])("GIVEN %o, %s THEN throws", (value, type) => {
+	])("GIVEN %o, %s THEN throws", (value, options) => {
 		class Test {
-			@Assert.Type(type)
+			@Assert.Type(options)
 			public value = value;
 		}
 

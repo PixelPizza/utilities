@@ -1,4 +1,7 @@
-export interface RangeOptions<T extends number | bigint = number | bigint> {
+import type { AssertionOptions } from "../../Assertion";
+
+export interface RangeOptions<T extends number | bigint = number | bigint>
+	extends AssertionOptions {
 	/**
 	 * The value must be greater than or equal to the given number or bigint.
 	 */

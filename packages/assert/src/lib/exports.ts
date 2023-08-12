@@ -25,3 +25,4 @@ export * from "./string/Phone";
 export * from "./string/Regex";
 export * from "./string/Url";
 export * from "./string/Uuid";
+export * from "./configs";

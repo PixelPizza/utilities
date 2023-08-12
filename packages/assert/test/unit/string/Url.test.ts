@@ -6,7 +6,7 @@ import {
 } from "@sapphire/shapeshift";
 
 describe("Url tests", () => {
-	test.each([
+	test.each<string>([
 		"https://www.google.com",
 		"https://www.google.com/",
 		"https://www.google.com/search?q=hello+world",
@@ -22,7 +22,7 @@ describe("Url tests", () => {
 		expect(() => new Test()).not.toThrow();
 	});
 
-	test.each(["google", "google.com", "https://"])(
+	test.each<string>(["google", "google.com", "https://"])(
 		"GIVEN %s without options THEN throws",
 		(value) => {
 			class Test {
@@ -41,13 +41,13 @@ describe("Url tests", () => {
 		}
 	);
 
-	test.each([
+	test.each<[string, `${string}.${string}`[]]>([
 		["https://google.com", ["google.com"]],
 		["https://pixelpizza.eu", ["google.com", "pixelpizza.eu"]],
 		["https://pixelpizza.eu", ["pixelpizza.eu"]]
-	] satisfies [string, `${string}.${string}`[]][])(
+	])(
 		"GIVEN %s with allowed domains %s THEN does not throw",
-		(url, allowedDomains: `${string}.${string}`[]) => {
+		(url, allowedDomains) => {
 			class Test {
 				@Assert.Url({ allowedDomains })
 				public url = url;
@@ -57,14 +57,14 @@ describe("Url tests", () => {
 		}
 	);
 
-	test.each([
+	test.each<[string, `${string}.${string}`[]]>([
 		["https://google.com", ["pixelpizza.eu"]],
 		["https://pixelpizza.eu", ["google.com"]],
 		["https://pixelpizza.eu", ["google.com", "discord.com"]],
 		["https://www.google.com", ["google.com"]]
-	] satisfies [string, `${string}.${string}`[]][])(
+	])(
 		"GIVEN %s with allowed domains %s THEN throws",
-		(url, allowedDomains: `${string}.${string}`[]) => {
+		(url, allowedDomains) => {
 			class Test {
 				@Assert.Url({ allowedDomains })
 				public url = url;
@@ -81,16 +81,16 @@ describe("Url tests", () => {
 		}
 	);
 
-	test.each([
+	test.each<[string, `${string}:`[]]>([
 		["https://www.google.com", ["https:"]],
 		["http://example.com", ["http:"]],
 		["https://www.google.com", ["https:", "http:"]],
 		["https://www.google.com", ["https:", "http:", "ftp:"]],
 		["smtp://example.com", ["smtp:"]],
 		["mysql://user:password@localhost/database?version=8", ["mysql:"]]
-	] satisfies [string, `${string}:`[]][])(
+	])(
 		"GIVEN %s with allowed protocols %s THEN does not throw",
-		(url, allowedProtocols: `${string}:`[]) => {
+		(url, allowedProtocols) => {
 			class Test {
 				@Assert.Url({ allowedProtocols })
 				public url = url;
@@ -100,15 +100,15 @@ describe("Url tests", () => {
 		}
 	);
 
-	test.each([
+	test.each<[string, `${string}:`[]]>([
 		["https://www.google.com", ["http:"]],
 		["http://example.com", ["https:"]],
 		["https://www.google.com", ["ftp:"]],
 		["http://www.google.com", ["https:", "ftp:"]],
 		["mysql://user:password@localhost/database?version=8", ["mysqlx:"]]
-	] satisfies [string, `${string}:`[]][])(
+	])(
 		"GIVEN %s with allowed protocols %s THEN throws",
-		(url, allowedProtocols: `${string}:`[]) => {
+		(url, allowedProtocols) => {
 			class Test {
 				@Assert.Url({ allowedProtocols })
 				public url = url;
@@ -124,6 +124,15 @@ describe("Url tests", () => {
 			);
 		}
 	);
+
+	test("GIVEN invalid url with assertion disabled THEN does not throw", () => {
+		class Test {
+			@Assert.Url({ assertionEnabled: false })
+			public url = "google";
+		}
+
+		expect(() => new Test()).not.toThrow();
+	});
 
 	test("GIVEN a number THEN throws", () => {
 		class Test {

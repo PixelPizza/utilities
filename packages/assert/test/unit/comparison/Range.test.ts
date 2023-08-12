@@ -3,7 +3,7 @@ import { ExpectedConstraintError } from "@sapphire/shapeshift";
 
 describe("Range tests", () => {
 	describe("Max tests", () => {
-		test.each([
+		test.each<[number | bigint, number | bigint]>([
 			[1, 5],
 			[4, 5],
 			[5, 5],
@@ -24,7 +24,7 @@ describe("Range tests", () => {
 			expect(() => new Test()).not.toThrow();
 		});
 
-		test.each([
+		test.each<[number | bigint, number | bigint]>([
 			[6, 5],
 			[3, 1],
 			[32, 11],
@@ -53,7 +53,7 @@ describe("Range tests", () => {
 	});
 
 	describe("Min/Max tests", () => {
-		test.each([
+		test.each<[number | bigint, number | bigint, number | bigint]>([
 			[6, 5, 10],
 			[3, 3, 3],
 			[4332, 303, 329329],
@@ -76,7 +76,7 @@ describe("Range tests", () => {
 			}
 		);
 
-		test.each([
+		test.each<[number | bigint, number | bigint, number | bigint]>([
 			[4, 5, 10],
 			[33, 34, 34],
 			[30.1, 31, 31.1],
@@ -105,7 +105,7 @@ describe("Range tests", () => {
 			}
 		);
 
-		test.each([
+		test.each<[number | bigint, number | bigint, number | bigint]>([
 			[11, 5, 10],
 			[33, 32, 32],
 			[33.3, 32, 33.2],
@@ -135,7 +135,7 @@ describe("Range tests", () => {
 
 	describe("Options tests", () => {
 		describe("Equal tests", () => {
-			test.each([
+			test.each<[number | bigint, number | bigint]>([
 				[5, 5],
 				[33, 33],
 				[32332, 32332],
@@ -152,7 +152,7 @@ describe("Range tests", () => {
 				expect(() => new Test()).not.toThrow();
 			});
 
-			test.each([
+			test.each<[number | bigint, number | bigint]>([
 				[6, 5],
 				[3, 1],
 				[32, 45],
@@ -182,7 +182,7 @@ describe("Range tests", () => {
 		});
 
 		describe("NotEqual tests", () => {
-			test.each([
+			test.each<[number | bigint, number | bigint]>([
 				[4, 5],
 				[1, 3],
 				[33, 56],
@@ -205,7 +205,7 @@ describe("Range tests", () => {
 				}
 			);
 
-			test.each([
+			test.each<[number | bigint, number | bigint]>([
 				[5, 5],
 				[1, 1],
 				[33, 33],
@@ -233,7 +233,7 @@ describe("Range tests", () => {
 		});
 
 		describe("GreaterThan tests", () => {
-			test.each([
+			test.each<[number | bigint, number | bigint]>([
 				[6, 5],
 				[3, 1],
 				[43, 32],
@@ -256,7 +256,7 @@ describe("Range tests", () => {
 				}
 			);
 
-			test.each([
+			test.each<[number | bigint, number | bigint]>([
 				[5, 5],
 				[5, 6],
 				[1, 3],
@@ -291,7 +291,7 @@ describe("Range tests", () => {
 		});
 
 		describe("LessThan tests", () => {
-			test.each([
+			test.each<[number | bigint, number | bigint]>([
 				[5, 6],
 				[1, 3],
 				[32, 43],
@@ -314,7 +314,7 @@ describe("Range tests", () => {
 				}
 			);
 
-			test.each([
+			test.each<[number | bigint, number | bigint]>([
 				[6, 5],
 				[3, 1],
 				[43, 32],
@@ -339,6 +339,17 @@ describe("Range tests", () => {
 						`expected < ${lessThan}`
 					)
 				);
+			});
+		});
+
+		describe("Assertion disabled tests", () => {
+			test("GIVEN invalid number with assertion disabled THEN does not throw", () => {
+				class Test {
+					@Assert.Range({ min: 4, assertionEnabled: false })
+					public value = 3;
+				}
+
+				expect(() => new Test()).not.toThrow();
 			});
 		});
 	});
