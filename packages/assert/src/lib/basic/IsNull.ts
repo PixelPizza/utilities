@@ -1,6 +1,23 @@
 import { s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
+import type { AssertionOptions } from "../Assertion";
 
+/**
+ * Decorator that checks if the value is `null`.
+ *
+ * @example
+ * ```typescript
+ * class Example {
+ *   @IsNull({ assertionEnabled: false })
+ *   public isNull = undefined;
+ * }
+ * ```
+ *
+ * @throws {import("@sapphire/shapeshift").ExpectedValidationError} Thrown if the value is not `null`.
+ *
+ * @since 1.1.0
+ */
+export function IsNull(options: AssertionOptions): PropertyDecorator;
 /**
  * Decorator that checks if the value is `null`.
  *
@@ -16,5 +33,20 @@ import { createDecorator } from "../utils";
  *
  * @since 1.0.0
  */
-export const IsNull: PropertyDecorator = (target, key) =>
-	createDecorator(s.null)(target, key);
+export function IsNull(
+	target: NonNullable<unknown>,
+	key: string | symbol
+): void;
+export function IsNull(
+	targetOrOptions: NonNullable<unknown> | AssertionOptions,
+	key?: string | symbol
+) {
+	if (key) {
+		return createDecorator(s.null)(targetOrOptions, key);
+	}
+
+	return createDecorator(
+		s.null,
+		(targetOrOptions as AssertionOptions).assertionEnabled
+	);
+}

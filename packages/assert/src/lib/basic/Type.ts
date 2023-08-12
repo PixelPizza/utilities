@@ -1,5 +1,6 @@
 import { s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
+import type { AssertionOptions } from "../Assertion";
 
 function getTypeAssertion(
 	type:
@@ -52,6 +53,54 @@ function getParseValueModifier(
 	return modifyParseValue;
 }
 
+interface TypeOptions extends AssertionOptions {
+	/**
+	 * The type to assert.
+	 */
+	type:
+		| "string"
+		| "number"
+		| "bigint"
+		| "boolean"
+		| "symbol"
+		| "undefined"
+		| "object"
+		| "function";
+}
+
+function createOptions(
+	typeOrOptions:
+		| "string"
+		| "number"
+		| "bigint"
+		| "boolean"
+		| "symbol"
+		| "undefined"
+		| "object"
+		| "function"
+		| TypeOptions
+) {
+	return typeof typeOrOptions === "string"
+		? { type: typeOrOptions }
+		: typeOrOptions;
+}
+
+/**
+ * Creates a decorator that validates the decorated property is of the given type.
+ *
+ * @example
+ * ```typescript
+ * class Example {
+ *   @Type({ type: "string" })
+ *   public email: string = "a string";
+ * }
+ * ```
+ *
+ * @throws {import("@sapphire/shapeshift").BaseError} Thrown if the decorated property is not of the given type.
+ *
+ * @since 1.1.0
+ */
+export function Type(options: TypeOptions): PropertyDecorator;
 /**
  * Creates a decorator that validates the decorated property is of the given type.
  *
@@ -77,6 +126,40 @@ export function Type(
 		| "undefined"
 		| "object"
 		| "function"
+): PropertyDecorator;
+/**
+ * Creates a decorator that validates the decorated property is of the given type.
+ *
+ * @internal This overload is only used for testing.
+ */
+export function Type(
+	options:
+		| "string"
+		| "number"
+		| "bigint"
+		| "boolean"
+		| "symbol"
+		| "undefined"
+		| "object"
+		| "function"
+		| TypeOptions
+): PropertyDecorator;
+export function Type(
+	typeOrOptions:
+		| "string"
+		| "number"
+		| "bigint"
+		| "boolean"
+		| "symbol"
+		| "undefined"
+		| "object"
+		| "function"
+		| TypeOptions
 ) {
-	return createDecorator(getTypeAssertion(type), getParseValueModifier(type));
+	const options = createOptions(typeOrOptions);
+	return createDecorator(
+		getTypeAssertion(options.type),
+		options.assertionEnabled,
+		getParseValueModifier(options.type)
+	);
 }

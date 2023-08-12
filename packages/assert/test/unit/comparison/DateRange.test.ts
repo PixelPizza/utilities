@@ -3,7 +3,7 @@ import { ExpectedConstraintError } from "@sapphire/shapeshift";
 
 describe("DateRange tests", () => {
 	describe("Max tests", () => {
-		test.each([
+		test.each<[Date, Date]>([
 			[new Date(2020, 1, 1), new Date(2020, 1, 1)],
 			[new Date(2020, 1, 1), new Date(2020, 1, 2)],
 			[new Date(2020, 1, 1), new Date(2020, 2, 1)],
@@ -17,7 +17,7 @@ describe("DateRange tests", () => {
 			expect(() => new Test()).not.toThrow();
 		});
 
-		test.each([
+		test.each<[Date, Date]>([
 			[new Date(2020, 1, 2), new Date(2020, 1, 1)],
 			[new Date(2020, 1, 1), new Date(2020, 0, 1)]
 		])("GIVEN %s with max %s THEN throws", (value, maxDate) => {
@@ -38,7 +38,7 @@ describe("DateRange tests", () => {
 	});
 
 	describe("Min/Max tests", () => {
-		test.each([
+		test.each<[Date, Date, Date]>([
 			[new Date(2020, 1, 5), new Date(2020, 1, 1), new Date(2020, 1, 10)],
 			[
 				new Date(2001, 10, 12),
@@ -58,7 +58,7 @@ describe("DateRange tests", () => {
 			}
 		);
 
-		test.each([
+		test.each<[Date, Date, Date]>([
 			[new Date(2020, 1, 0), new Date(2020, 1, 1), new Date(2020, 1, 10)],
 			[new Date(2001, 1, 1), new Date(2001, 2, 1), new Date(2001, 2, 2)]
 		])(
@@ -80,7 +80,7 @@ describe("DateRange tests", () => {
 			}
 		);
 
-		test.each([
+		test.each<[Date, Date, Date]>([
 			[
 				new Date(2020, 1, 11),
 				new Date(2020, 1, 1),
@@ -109,7 +109,7 @@ describe("DateRange tests", () => {
 
 	describe("Options tests", () => {
 		describe("Equal tests", () => {
-			test.each([
+			test.each<[Date, Date]>([
 				[new Date(2020, 1, 1), new Date(2020, 1, 1)],
 				[new Date(2001, 11, 30), new Date(2001, 11, 30)],
 				[new Date(1999, 4, 12), new Date(1999, 4, 12)]
@@ -122,7 +122,7 @@ describe("DateRange tests", () => {
 				expect(() => new Test()).not.toThrow();
 			});
 
-			test.each([
+			test.each<[Date, Date]>([
 				[new Date(2020, 1, 2), new Date(2020, 1, 1)],
 				[new Date(2001, 11, 30), new Date(1999, 4, 12)],
 				[new Date(1999, 4, 12), new Date(2001, 11, 30)]
@@ -144,7 +144,7 @@ describe("DateRange tests", () => {
 		});
 
 		describe("NotEqual tests", () => {
-			test.each([
+			test.each<[Date, Date]>([
 				[new Date(2020, 1, 2), new Date(2020, 1, 1)],
 				[new Date(2001, 11, 30), new Date(1999, 4, 12)],
 				[new Date(1999, 4, 12), new Date(2001, 11, 30)]
@@ -160,7 +160,7 @@ describe("DateRange tests", () => {
 				}
 			);
 
-			test.each([
+			test.each<[Date, Date]>([
 				[new Date(2020, 1, 1), new Date(2020, 1, 1)],
 				[new Date(2001, 11, 30), new Date(2001, 11, 30)],
 				[new Date(1999, 4, 12), new Date(1999, 4, 12)]
@@ -182,7 +182,7 @@ describe("DateRange tests", () => {
 		});
 
 		describe("GreaterThan tests", () => {
-			test.each([
+			test.each<[Date, Date]>([
 				[new Date(2020, 1, 2), new Date(2020, 1, 1)],
 				[new Date(2001, 11, 30), new Date(1999, 4, 12)],
 				[new Date(2003, 9, 12), new Date(2000, 10, 12)]
@@ -198,7 +198,7 @@ describe("DateRange tests", () => {
 				}
 			);
 
-			test.each([
+			test.each<[Date, Date]>([
 				[new Date(2020, 1, 1), new Date(2020, 1, 1)],
 				[new Date(2001, 11, 30), new Date(2001, 11, 31)],
 				[new Date(1999, 4, 12), new Date(2003, 9, 12)]
@@ -223,7 +223,7 @@ describe("DateRange tests", () => {
 		});
 
 		describe("LessThan tests", () => {
-			test.each([
+			test.each<[Date, Date]>([
 				[new Date(2020, 0, 31), new Date(2020, 1, 1)],
 				[new Date(1999, 4, 12), new Date(2001, 11, 30)],
 				[new Date(2003, 9, 12), new Date(2003, 9, 13)]
@@ -239,7 +239,7 @@ describe("DateRange tests", () => {
 				}
 			);
 
-			test.each([
+			test.each<[Date, Date]>([
 				[new Date(2020, 1, 1), new Date(2020, 1, 1)],
 				[new Date(2001, 11, 30), new Date(1999, 4, 12)],
 				[new Date(2003, 9, 13), new Date(2003, 9, 12)]
@@ -257,6 +257,20 @@ describe("DateRange tests", () => {
 						`expected < ${lessThan}`
 					)
 				);
+			});
+		});
+
+		describe("Assertion disabled tests", () => {
+			test("GIVEN invalid date with assertion disabled THEN does not throw", () => {
+				class Test {
+					@Assert.DateRange({
+						min: new Date(2020, 1, 2),
+						assertionEnabled: false
+					})
+					public value = new Date(2020, 1, 1);
+				}
+
+				expect(() => new Test()).not.toThrow();
 			});
 		});
 	});

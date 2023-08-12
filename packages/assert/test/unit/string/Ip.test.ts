@@ -19,6 +19,15 @@ describe("Ip tests", () => {
 		expect(() => new Test()).not.toThrow();
 	});
 
+	test("GIVEN invalid ip with assertion disabled THEN does not throw", () => {
+		class Test {
+			@Assert.Ip({ assertionEnabled: false })
+			public ip: string = "0.0.0";
+		}
+
+		expect(() => new Test()).not.toThrow();
+	});
+
 	test.each([
 		"0.0.0",
 		"2001:0db8:85a3:0000:0000:8a2e:0370",

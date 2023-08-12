@@ -1,6 +1,24 @@
 import { s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
+import type { AssertionOptions } from "../Assertion";
 
+/**
+ * A decorator that validates that the value is an array with unique values.
+ *
+ * @example
+ * ```typescript
+ * class Example {
+ *   @Unique({ assertionEnabled: false })
+ *   public array: number[] = [1, 2, 1];
+ * }
+ * ```
+ *
+ * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not an array.
+ * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property does not contain unique values.
+ *
+ * @since 1.1.0
+ */
+export function Unique(options: AssertionOptions): PropertyDecorator;
 /**
  * A decorator that validates that the value is an array with unique values.
  *
@@ -17,5 +35,20 @@ import { createDecorator } from "../utils";
  *
  * @since 1.0.0
  */
-export const Unique: PropertyDecorator = (target, key) =>
-	createDecorator(s.any.array.unique)(target, key);
+export function Unique(
+	target: NonNullable<unknown>,
+	key: string | symbol
+): void;
+export function Unique(
+	targetOrOptions: NonNullable<unknown> | AssertionOptions,
+	key?: string | symbol
+) {
+	if (key) {
+		return createDecorator(s.any.array.unique)(targetOrOptions, key);
+	}
+
+	return createDecorator(
+		s.any.array.unique,
+		(targetOrOptions as AssertionOptions).assertionEnabled
+	);
+}

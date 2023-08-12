@@ -18,6 +18,15 @@ describe("Positive tests", () => {
 		}
 	);
 
+	test("GIVEN negative number with assertion disabled THEN does not throw", () => {
+		class Test {
+			@Assert.Positive({ assertionEnabled: false })
+			public number = -1;
+		}
+
+		expect(() => new Test()).not.toThrow();
+	});
+
 	// TODO: merge tests under this comment
 	test.each([-1, -32, -85])("GIVEN %s THEN throws", (value) => {
 		class Test {

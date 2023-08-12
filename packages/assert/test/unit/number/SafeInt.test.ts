@@ -17,6 +17,15 @@ describe("SafeInt tests", () => {
 		expect(() => new Test()).not.toThrow();
 	});
 
+	test("GIVEN non-safe integer with assertion disabled THEN does not throw", () => {
+		class Test {
+			@Assert.SafeInt({ assertionEnabled: false })
+			public number = Number.MIN_SAFE_INTEGER - 1;
+		}
+
+		expect(() => new Test()).not.toThrow();
+	});
+
 	test.each([
 		Number.MIN_SAFE_INTEGER - 423432,
 		Number.MIN_SAFE_INTEGER - 1,

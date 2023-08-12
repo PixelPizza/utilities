@@ -1,7 +1,8 @@
 import { s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
+import type { AssertionOptions } from "../Assertion";
 
-interface LengthOptions {
+interface LengthOptions extends AssertionOptions {
 	/**
 	 * The length of the string must be greater than or equal to the given length.
 	 */
@@ -91,37 +92,39 @@ export function Length(
 		return options;
 	}
 
-	function createAssertion() {
-		const newOptions = createOptions(options, max);
-
+	function createAssertion(options: LengthOptions) {
 		let assertion = s.string;
 
-		if (newOptions.min) {
-			assertion = assertion.lengthGreaterThanOrEqual(newOptions.min);
+		if (options.min) {
+			assertion = assertion.lengthGreaterThanOrEqual(options.min);
 		}
 
-		if (newOptions.max) {
-			assertion = assertion.lengthLessThanOrEqual(newOptions.max);
+		if (options.max) {
+			assertion = assertion.lengthLessThanOrEqual(options.max);
 		}
 
-		if (newOptions.equal) {
-			assertion = assertion.lengthEqual(newOptions.equal);
+		if (options.equal) {
+			assertion = assertion.lengthEqual(options.equal);
 		}
 
-		if (newOptions.greaterThan) {
-			assertion = assertion.lengthGreaterThan(newOptions.greaterThan);
+		if (options.greaterThan) {
+			assertion = assertion.lengthGreaterThan(options.greaterThan);
 		}
 
-		if (newOptions.lessThan) {
-			assertion = assertion.lengthLessThan(newOptions.lessThan);
+		if (options.lessThan) {
+			assertion = assertion.lengthLessThan(options.lessThan);
 		}
 
-		if (newOptions.notEqual) {
-			assertion = assertion.lengthNotEqual(newOptions.notEqual);
+		if (options.notEqual) {
+			assertion = assertion.lengthNotEqual(options.notEqual);
 		}
 
 		return assertion;
 	}
 
-	return createDecorator(createAssertion());
+	const newOptions = createOptions(options, max);
+	return createDecorator(
+		createAssertion(newOptions),
+		newOptions.assertionEnabled
+	);
 }

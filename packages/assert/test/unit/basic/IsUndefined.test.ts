@@ -11,6 +11,15 @@ describe("IsUndefined tests", () => {
 		expect(() => new TestClass()).not.toThrow();
 	});
 
+	test("GIVEN null with assertion disabled THEN does not throw", () => {
+		class Test {
+			@Assert.IsUndefined({ assertionEnabled: false })
+			public value = null;
+		}
+
+		expect(() => new Test()).not.toThrow();
+	});
+
 	test("GIVEN null THEN throws", () => {
 		class TestClass {
 			@Assert.IsUndefined

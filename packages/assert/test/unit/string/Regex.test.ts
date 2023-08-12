@@ -15,6 +15,15 @@ describe("Regex tests", () => {
 		expect(() => new Test()).not.toThrow();
 	});
 
+	test("GIVEN invalid value with assertion disabled THEN does not throw", () => {
+		class Test {
+			@Assert.Regex({ regex: /test/, assertionEnabled: false })
+			public prop = 1;
+		}
+
+		expect(() => new Test()).not.toThrow();
+	});
+
 	test.each([
 		["invalid", /test/],
 		["invalid", /test/i],

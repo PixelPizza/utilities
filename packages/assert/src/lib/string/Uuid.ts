@@ -1,5 +1,13 @@
-import { s, type StringUuidOptions } from "@sapphire/shapeshift";
+import {
+	s,
+	type StringUuidOptions as ShapeShiftStringUuidOptions
+} from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
+import type { AssertionOptions } from "../Assertion";
+
+interface StringUuidOptions
+	extends ShapeShiftStringUuidOptions,
+		AssertionOptions {}
 
 /**
  * A decorator that validates the decorated property is a string and a valid uuid v4
@@ -46,5 +54,8 @@ export function Uuid(
 		);
 	}
 
-	return createDecorator(s.string.uuid(options as StringUuidOptions));
+	return createDecorator(
+		s.string.uuid(options as StringUuidOptions),
+		(options as StringUuidOptions).assertionEnabled
+	);
 }

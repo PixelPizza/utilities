@@ -16,6 +16,15 @@ describe("Email tests", () => {
 		expect(() => new Test()).not.toThrow();
 	});
 
+	test("GIVEN invalid email with assertion disabled THEN does not throw", () => {
+		class Test {
+			@Assert.Email({ assertionEnabled: false })
+			public email = "invalid";
+		}
+
+		expect(() => new Test()).not.toThrow();
+	});
+
 	test.each(["invalid", "invalid@", "invalid@invalid", "invalid.com"])(
 		"GIVEN %s THEN throws",
 		(value) => {
