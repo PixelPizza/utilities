@@ -2,11 +2,22 @@ import { s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
 import type { AssertionOptions } from "../Assertion";
 
+/**
+ * Creates the assertion for the given value.
+ * @param value The value to be used in the assertion.
+ * @returns The assertion.
+ *
+ * @since 1.0.0
+ */
 function createAssertion(value: number | bigint) {
 	if (typeof value === "bigint") return s.bigint.divisibleBy(value);
 	return s.number.divisibleBy(value);
 }
 
+/**
+ * The options for {@link DivisibleBy}.
+ * @since 1.1.0
+ */
 interface DivisibleByOptions extends AssertionOptions {
 	/**
 	 * The value must be divisible by the given value.
@@ -14,6 +25,13 @@ interface DivisibleByOptions extends AssertionOptions {
 	divisibleBy: number | bigint;
 }
 
+/**
+ * Creates the options for {@link DivisibleBy}.
+ * @param value The value to be used in the assertion.
+ * @returns The options.
+ *
+ * @since 1.1.0
+ */
 function createOptions(
 	value: number | bigint | DivisibleByOptions
 ): DivisibleByOptions {
@@ -32,6 +50,8 @@ function createOptions(
  * }
  * ```
  *
+ * @param options The options for the decorator.
+ *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a number or bigint.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not divisible by the given value.
  *
@@ -48,6 +68,8 @@ export function DivisibleBy(options: DivisibleByOptions): PropertyDecorator;
  *   public divisibleByTwo: bigint = 0n;
  * }
  * ```
+ *
+ * @param value The value to be used in the assertion.
  *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a number or bigint.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not divisible by the given value.

@@ -2,6 +2,13 @@ import type { RangeOptions } from "./RangeOptions";
 import { BigIntValidator, NumberValidator, s } from "@sapphire/shapeshift";
 import { isOptionsOfBigIntType, isOptionsOfNumberType } from "./Utilities";
 
+/**
+ * Creates a number range assertion based on the given options.
+ * @param options The options to create the assertion from.
+ * @returns The created assertion.
+ *
+ * @since 1.0.0
+ */
 function createNumberRangeAssertion(
 	options: RangeOptions<number>
 ): NumberValidator<number> {
@@ -34,6 +41,13 @@ function createNumberRangeAssertion(
 	return assertion;
 }
 
+/**
+ * Creates a bigint range assertion based on the given options.
+ * @param options The options to create the assertion from.
+ * @returns The created assertion.
+ *
+ * @since 1.0.0
+ */
 function createBigIntRangeAssertion(
 	options: RangeOptions<bigint>
 ): BigIntValidator<bigint> {
@@ -66,6 +80,13 @@ function createBigIntRangeAssertion(
 	return assertion;
 }
 
+/**
+ * Creates a range assertion based on the given options.
+ * @param options The options to create the assertion from.
+ * @returns The created assertion.
+ *
+ * @since 1.0.0
+ */
 export function createAssertion(options: RangeOptions) {
 	if (isOptionsOfNumberType(options)) {
 		return createNumberRangeAssertion(options);

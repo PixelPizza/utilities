@@ -2,6 +2,10 @@ import { s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
 import type { AssertionOptions } from "../Assertion";
 
+/**
+ * The options for {@link Length}.
+ * @since 1.0.0
+ */
 interface LengthOptions extends AssertionOptions {
 	/**
 	 * The length of the string must be greater than or equal to the given length.
@@ -40,6 +44,8 @@ interface LengthOptions extends AssertionOptions {
  * }
  * ```
  *
+ * @param options The options for the decorator.
+ *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a string.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not within the specified length.
  *
@@ -57,6 +63,8 @@ export function Length(options: LengthOptions): PropertyDecorator;
  * }
  * ```
  *
+ * @param max The maximum length of the string.
+ *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a string.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not within the specified length.
  *
@@ -73,6 +81,9 @@ export function Length(max: number): PropertyDecorator;
  *   public value: string = "name";
  * }
  * ```
+ *
+ * @param min The minimum length of the string.
+ * @param max The maximum length of the string.
  *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a string.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not within the specified length.

@@ -13,6 +13,8 @@ import type { AssertionOptions } from "../Assertion";
  * }
  * ```
  *
+ * @param options The options for the decorator.
+ *
  * @throws {import("@sapphire/shapeshift").ExpectedValidationError} Thrown if the value is not `undefined`.
  *
  * @since 1.1.0
