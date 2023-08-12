@@ -2,6 +2,10 @@ import { s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
 import type { AssertionOptions } from "../Assertion";
 
+/**
+ * The options for {@link EqualTo}.
+ * @since 1.1.0
+ */
 interface EqualToOptions extends AssertionOptions {
 	/**
 	 * The value to compare against.
@@ -9,6 +13,13 @@ interface EqualToOptions extends AssertionOptions {
 	equalTo: any;
 }
 
+/**
+ * Creates the options for {@link EqualTo}.
+ * @param options The options.
+ * @returns The options.
+ *
+ * @since 1.1.0
+ */
 function createOptions(options: any): EqualToOptions {
 	if (typeof options === "object" && options !== null && "equalTo" in options)
 		return options;
@@ -26,6 +37,8 @@ function createOptions(options: any): EqualToOptions {
  * }
  * ```
  *
+ * @param options The options for the decorator.
+ *
  * @throws {import("@sapphire/shapeshift").ExpectedValidationError} Thrown if the decorated property is not equal to the given value.
  *
  * @since 1.1.0
@@ -41,6 +54,8 @@ export function EqualTo(options: EqualToOptions): PropertyDecorator;
  *   public two: number = 2;
  * }
  * ```
+ *
+ * @param value The value to compare against.
  *
  * @throws {import("@sapphire/shapeshift").ExpectedValidationError} Thrown if the decorated property is not equal to the given value.
  *

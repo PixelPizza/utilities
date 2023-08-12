@@ -1,6 +1,12 @@
 import type { BaseValidator } from "@sapphire/shapeshift";
 import { getGlobalAssertionEnabled } from "./configs";
 
+/**
+ * Creates a decorator for a property.
+ * @param validator The validator to use.
+ * @param assertionEnabled Whether the assertion is enabled.
+ * @param modifyParseValue A function to modify the value before parsing.
+ */
 export function createDecorator(
 	validator: BaseValidator<any>,
 	assertionEnabled?: boolean,
@@ -17,6 +23,14 @@ export function createDecorator(
 	};
 }
 
+/**
+ * Defines an object property with an assertion.
+ * @param assertion The assertion to use.
+ * @param target The target object.
+ * @param key The key of the property.
+ * @param assertionEnabled Whether the assertion is enabled.
+ * @param modifyParseValue A function to modify the value before parsing.W
+ */
 function defineObjectPropertyWithAssertion(
 	assertion: BaseValidator<any>,
 	target: unknown,

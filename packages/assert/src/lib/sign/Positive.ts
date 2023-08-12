@@ -15,6 +15,8 @@ const assertion = s.number.positive.or(s.bigint.positive);
  * }
  * ```
  *
+ * @param options The options for the assertion.
+ *
  * @throws {import("@sapphire/shapeshift").CombinedError} Thrown if the decorated property is not a number or bigint or is not positive.
  *
  * @since 1.1.0

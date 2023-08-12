@@ -2,8 +2,18 @@ import { s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
 import type { AssertionOptions } from "../Assertion";
 
+/**
+ * The type of the date-like values.
+ *
+ * @internal
+ */
 type DateLike = Date | string | number;
 
+/**
+ * The options for {@link DateRange}.
+ *
+ * @since 1.0.0
+ */
 interface DateRangeOptions extends AssertionOptions {
 	/**
 	 * The value must be greater than or equal to the given date.
@@ -43,6 +53,8 @@ interface DateRangeOptions extends AssertionOptions {
  * }
  * ```
  *
+ * @param options The options for the decorator.
+ *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a date.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not within the specified range.
  *
@@ -60,6 +72,8 @@ export function DateRange(options: DateRangeOptions): PropertyDecorator;
  * }
  * ```
  *
+ * @param max The maximum date.
+ *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a date.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not within the specified range.
  *
@@ -76,6 +90,9 @@ export function DateRange(max: Date | string | number): PropertyDecorator;
  *   public date: Date = new Date("2020-06-01");
  * }
  * ```
+ *
+ * @param min The minimum date.
+ * @param max The maximum date.
  *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a date.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not within the specified range.

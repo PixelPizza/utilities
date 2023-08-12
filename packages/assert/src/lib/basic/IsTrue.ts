@@ -13,6 +13,8 @@ import type { AssertionOptions } from "../Assertion";
  * }
  * ```
  *
+ * @param options The options for the decorator.
+ *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the value is not a boolean.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the value is not `true`.
  *

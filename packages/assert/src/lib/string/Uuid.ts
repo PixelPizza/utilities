@@ -5,6 +5,10 @@ import {
 import { createDecorator } from "../utils";
 import type { AssertionOptions } from "../Assertion";
 
+/**
+ * The options for {@link Uuid}.
+ * @since 1.0.0
+ */
 interface StringUuidOptions
 	extends ShapeShiftStringUuidOptions,
 		AssertionOptions {}
@@ -36,6 +40,8 @@ export function Uuid(target: unknown, key: string | symbol): void;
  *   public uuid: string = "3e91af1e-f7e6-54cd-808f-1448ac9cb7ff";
  * }
  * ```
+ *
+ * @param options The options for the decorator.
  *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a string.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not a valid uuid.

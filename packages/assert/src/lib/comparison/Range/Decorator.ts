@@ -13,6 +13,8 @@ import { createDecorator } from "../../utils";
  * }
  * ```
  *
+ * @param options The options for the decorator.
+ *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a number.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not within the specified range.
  *
@@ -29,6 +31,8 @@ export function Range(options: RangeOptions<number>): PropertyDecorator;
  *   public value: bigint = 0n;
  * }
  * ```
+ *
+ * @param options The options for the decorator.
  *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a bigint.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not within the specified range.
@@ -47,6 +51,8 @@ export function Range(options: RangeOptions<bigint>): PropertyDecorator;
  * }
  * ```
  *
+ * @param max The maximum value allowed.
+ *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a number.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not within the specified range.
  *
@@ -63,6 +69,8 @@ export function Range(max: number): PropertyDecorator;
  *   public value: bigint = 0n;
  * }
  * ```
+ *
+ * @param max The maximum value allowed.
  *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a bigint.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not within the specified range.
@@ -81,6 +89,9 @@ export function Range(max: bigint): PropertyDecorator;
  * }
  * ```
  *
+ * @param min The minimum value allowed.
+ * @param max The maximum value allowed.
+ *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a number.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not within the specified range.
  *
@@ -97,6 +108,9 @@ export function Range(min: number, max: number): PropertyDecorator;
  *   public value: bigint = 0n;
  * }
  * ```
+ *
+ * @param min The minimum value allowed.
+ * @param max The maximum value allowed.
  *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a bigint.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not within the specified range.

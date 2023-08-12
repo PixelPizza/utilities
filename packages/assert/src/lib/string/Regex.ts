@@ -2,6 +2,10 @@ import { s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
 import type { AssertionOptions } from "../Assertion";
 
+/**
+ * The options for {@link Regex}.
+ * @since 1.1.0
+ */
 interface RegexOptions extends AssertionOptions {
 	/**
 	 * The regular expression to match against.
@@ -9,6 +13,13 @@ interface RegexOptions extends AssertionOptions {
 	regex: RegExp;
 }
 
+/**
+ * Creates the options for {@link Regex}.
+ * @param options The options for {@link Regex}.
+ * @returns The options for {@link Regex}.
+ *
+ * @since 1.1.0
+ */
 function createOptions(options: RegExp | RegexOptions): RegexOptions {
 	return options instanceof RegExp ? { regex: options } : options;
 }
@@ -23,6 +34,8 @@ function createOptions(options: RegExp | RegexOptions): RegexOptions {
  *   public value: string = "ateststring";
  * }
  * ```
+ *
+ * @param options The options for the decorator.
  *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a string.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property does not match the regular expression.
@@ -40,6 +53,8 @@ export function Regex(options: RegexOptions): PropertyDecorator;
  *   public value: string = "ateststring";
  * }
  * ```
+ *
+ * @param regex The regular expression to match against.
  *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a string.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property does not match the regular expression.

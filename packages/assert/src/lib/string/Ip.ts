@@ -2,6 +2,10 @@ import { s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
 import type { AssertionOptions } from "../Assertion";
 
+/**
+ * The options for the Ip decorator.
+ * @since 1.1.0
+ */
 interface IpOptions extends AssertionOptions {
 	/**
 	 * The ip version to validate against.
@@ -20,6 +24,8 @@ interface IpOptions extends AssertionOptions {
  * }
  * ```
  *
+ * @param options The options for the decorator.
+ *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a string.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not an ip-address or is not the right ip version.
  *
@@ -36,6 +42,8 @@ export function Ip(options: IpOptions): PropertyDecorator;
  *   public email: string = "192.168.0.0";
  * }
  * ```
+ *
+ * @param version The ip version to validate against.
  *
  * @throws {import("@sapphire/shapeshift").ValidationError} Thrown if the decorated property is not a string.
  * @throws {import("@sapphire/shapeshift").ExpectedConstraintError} Thrown if the decorated property is not an ip-address or is not the right ip version.

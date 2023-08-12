@@ -1,5 +1,10 @@
 import type { AssertionOptions } from "../../Assertion";
 
+/**
+ * Options for the range assertion.
+ *
+ * @since 1.0.0
+ */
 export interface RangeOptions<T extends number | bigint = number | bigint>
 	extends AssertionOptions {
 	/**
@@ -28,6 +33,13 @@ export interface RangeOptions<T extends number | bigint = number | bigint>
 	lessThan?: T;
 }
 
+/**
+ * Creates a range options object from the given options.
+ * @param options The options to create the range options from.
+ * @param max The maximum value.
+ *
+ * @since 1.0.0
+ */
 export function createOptions(
 	options: number | bigint | RangeOptions,
 	max?: number | bigint

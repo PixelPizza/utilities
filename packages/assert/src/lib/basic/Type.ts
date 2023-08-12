@@ -1,7 +1,14 @@
-import { s } from "@sapphire/shapeshift";
+import { BaseValidator, s } from "@sapphire/shapeshift";
 import { createDecorator } from "../utils";
 import type { AssertionOptions } from "../Assertion";
 
+/**
+ * Gets the assertion for the given type.
+ * @param type The type to assert.
+ * @returns The assertion for the given type.
+ *
+ * @since 1.0.0
+ */
 function getTypeAssertion(
 	type:
 		| "string"
@@ -12,7 +19,7 @@ function getTypeAssertion(
 		| "undefined"
 		| "object"
 		| "function"
-) {
+): BaseValidator<any> {
 	switch (type) {
 		case "string":
 			return s.string;
@@ -33,6 +40,13 @@ function getTypeAssertion(
 	}
 }
 
+/**
+ * Gets the modifier for the given type.
+ * @param type The type to assert.
+ * @returns The modifier for the given type.
+ *
+ * @since 1.0.0
+ */
 function getParseValueModifier(
 	type:
 		| "string"
@@ -43,7 +57,7 @@ function getParseValueModifier(
 		| "undefined"
 		| "object"
 		| "function"
-) {
+): ((value: any) => any) | undefined {
 	let modifyParseValue;
 	if (type === "symbol") {
 		modifyParseValue = (value: any) => value.constructor;
@@ -53,6 +67,11 @@ function getParseValueModifier(
 	return modifyParseValue;
 }
 
+/**
+ * The options for the {@link Type} decorator.
+ *
+ * @since 1.1.0
+ */
 interface TypeOptions extends AssertionOptions {
 	/**
 	 * The type to assert.
@@ -68,6 +87,13 @@ interface TypeOptions extends AssertionOptions {
 		| "function";
 }
 
+/**
+ * Creates the options for the decorator.
+ * @param typeOrOptions The type or options for the decorator.
+ * @returns The options for the decorator.
+ *
+ * @since 1.1.0
+ */
 function createOptions(
 	typeOrOptions:
 		| "string"
@@ -96,6 +122,8 @@ function createOptions(
  * }
  * ```
  *
+ * @param options The options for the decorator.
+ *
  * @throws {import("@sapphire/shapeshift").BaseError} Thrown if the decorated property is not of the given type.
  *
  * @since 1.1.0
@@ -111,6 +139,8 @@ export function Type(options: TypeOptions): PropertyDecorator;
  *   public email: string = "a string";
  * }
  * ```
+ *
+ * @param type The type to assert.
  *
  * @throws {import("@sapphire/shapeshift").BaseError} Thrown if the decorated property is not of the given type.
  *
