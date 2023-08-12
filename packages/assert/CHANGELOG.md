@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@pixelpizza/assert@1.1.0](https://github.com/pixelpizza/utilities/compare/@pixelpizza/assert@1.0.1...@pixelpizza/assert@1.1.0)- (2023-08-12)
+
+## Documentation
+
+- Add missing tsdoc (#12) ([105e28c](https://github.com/pixelpizza/utilities/commit/105e28cabc54c8e5ae0570ac6a49097e019aee70))
+
+## Features
+
+- Add config option to disable assertions (#11) ([d7043e4](https://github.com/pixelpizza/utilities/commit/d7043e4042e8cfb05a2421273117b6b9c3af8ac9))
+
 # [@pixelpizza/assert@1.0.0](https://github.com/pixelpizza/utilities/compare/@pixelpizza/assert@0.1.0...@pixelpizza/assert@1.0.0)- (2023-08-09)
 
 ## Features
