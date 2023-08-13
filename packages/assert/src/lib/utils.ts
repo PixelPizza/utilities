@@ -47,10 +47,7 @@ function defineObjectPropertyWithAssertion(
 			return value;
 		},
 		set(newValue) {
-			if (
-				assertionEnabled ||
-				(assertionEnabled === undefined && getGlobalAssertionEnabled())
-			) {
+			if (assertionEnabled ?? getGlobalAssertionEnabled()) {
 				assertion.parse(
 					modifyParseValue ? modifyParseValue(newValue) : newValue
 				);
