@@ -16,5 +16,19 @@ describe("Configs tests", () => {
 
 			expect(() => new Test()).not.toThrow();
 		});
+
+		test("WHEN disabling global assertion in constructor THEN does not throw", () => {
+			class Test {
+				@Assert.Type("number")
+				public value: number | string = 1;
+
+				public constructor() {
+					setGlobalAssertionEnabled(false);
+					this.value = "";
+				}
+			}
+
+			expect(() => new Test()).not.toThrow();
+		});
 	});
 });

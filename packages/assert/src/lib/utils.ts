@@ -38,8 +38,6 @@ function defineObjectPropertyWithAssertion(
 	assertionEnabled?: boolean,
 	modifyParseValue?: <T>(value: T) => T
 ) {
-	assertionEnabled ??= getGlobalAssertionEnabled();
-
 	const property = Object.getOwnPropertyDescriptor(target, key);
 
 	let value: any;
@@ -49,7 +47,10 @@ function defineObjectPropertyWithAssertion(
 			return value;
 		},
 		set(newValue) {
-			if (assertionEnabled) {
+			if (
+				assertionEnabled ||
+				(assertionEnabled === undefined && getGlobalAssertionEnabled())
+			) {
 				assertion.parse(
 					modifyParseValue ? modifyParseValue(newValue) : newValue
 				);
