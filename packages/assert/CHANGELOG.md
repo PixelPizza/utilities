@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@pixelpizza/assert@1.1.2](https://github.com/pixelpizza/utilities/compare/@pixelpizza/assert@1.1.1...@pixelpizza/assert@1.1.2)- (2023-08-13)
+
+## Bug Fixes
+
+- Check global config on setter ([94b6da2](https://github.com/pixelpizza/utilities/commit/94b6da2ef58064d7ef84b07a189a42762d63a1dd))
+
 # [@pixelpizza/assert@1.1.1](https://github.com/pixelpizza/utilities/compare/@pixelpizza/assert@1.1.0...@pixelpizza/assert@1.1.1)- (2023-08-12)
 
 ## Bug Fixes
