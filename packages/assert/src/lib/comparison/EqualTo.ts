@@ -43,7 +43,9 @@ function createOptions(options: any): EqualToOptions {
  *
  * @since 1.1.0
  */
-export function EqualTo(options: EqualToOptions): PropertyDecorator;
+export function EqualTo(
+	options: EqualToOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates that the value is equal to the given value.
  *
@@ -61,7 +63,7 @@ export function EqualTo(options: EqualToOptions): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function EqualTo(value: any): PropertyDecorator;
+export function EqualTo(value: any): PropertyDecorator & ParameterDecorator;
 export function EqualTo(value: any) {
 	const options = createOptions(value);
 	return createDecorator(

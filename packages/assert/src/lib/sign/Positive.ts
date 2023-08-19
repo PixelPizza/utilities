@@ -21,7 +21,9 @@ const assertion = s.number.positive.or(s.bigint.positive);
  *
  * @since 1.1.0
  */
-export function Positive(options: AssertionOptions): PropertyDecorator;
+export function Positive(
+	options: AssertionOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * A decorator that validates that the value is a positive number or bigint.
  *
@@ -39,14 +41,20 @@ export function Positive(options: AssertionOptions): PropertyDecorator;
  */
 export function Positive(
 	target: NonNullable<unknown>,
-	key: string | symbol
+	key: string | symbol,
+	parameterIndex?: number
 ): void;
 export function Positive(
 	targetOrOptions: NonNullable<unknown> | AssertionOptions,
-	key?: string | symbol
+	key?: string | symbol,
+	parameterIndex?: number
 ) {
-	if (key) {
-		return createDecorator(assertion)(targetOrOptions, key);
+	if (key || parameterIndex !== undefined) {
+		return createDecorator(assertion)(
+			targetOrOptions,
+			key,
+			parameterIndex!
+		);
 	}
 
 	return createDecorator(

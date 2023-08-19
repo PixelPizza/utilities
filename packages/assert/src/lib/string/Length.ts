@@ -51,7 +51,9 @@ interface LengthOptions extends AssertionOptions {
  *
  * @since 1.0.0
  */
-export function Length(options: LengthOptions): PropertyDecorator;
+export function Length(
+	options: LengthOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a string within the specified length.
  *
@@ -70,7 +72,7 @@ export function Length(options: LengthOptions): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Length(max: number): PropertyDecorator;
+export function Length(max: number): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a string within the specified length.
  *
@@ -90,11 +92,14 @@ export function Length(max: number): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Length(min: number, max: number): PropertyDecorator;
+export function Length(
+	min: number,
+	max: number
+): PropertyDecorator & ParameterDecorator;
 export function Length(
 	options: number | LengthOptions,
 	max?: number
-): PropertyDecorator {
+): PropertyDecorator & ParameterDecorator {
 	function createOptions(options: number | LengthOptions, max?: number) {
 		if (typeof options === "number") {
 			return max ? { min: options, max } : { max: options };

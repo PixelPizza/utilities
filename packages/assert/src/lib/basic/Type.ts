@@ -128,7 +128,9 @@ function createOptions(
  *
  * @since 1.1.0
  */
-export function Type(options: TypeOptions): PropertyDecorator;
+export function Type(
+	options: TypeOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is of the given type.
  *
@@ -156,7 +158,7 @@ export function Type(
 		| "undefined"
 		| "object"
 		| "function"
-): PropertyDecorator;
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is of the given type.
  *
@@ -173,7 +175,7 @@ export function Type(
 		| "object"
 		| "function"
 		| TypeOptions
-): PropertyDecorator;
+): PropertyDecorator & ParameterDecorator;
 export function Type(
 	typeOrOptions:
 		| "string"

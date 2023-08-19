@@ -46,7 +46,9 @@ function createOptions(
  *
  * @since 1.1.0
  */
-export function Instance(options: InstanceOptions): PropertyDecorator;
+export function Instance(
+	options: InstanceOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * Decorator that checks if the value is an instance of the given value.
  *
@@ -64,7 +66,9 @@ export function Instance(options: InstanceOptions): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Instance(expected: Constructor<unknown>): PropertyDecorator;
+export function Instance(
+	expected: Constructor<unknown>
+): PropertyDecorator & ParameterDecorator;
 /**
  * Decorator that checks if the value is an instance of the given value.
  *
@@ -72,11 +76,12 @@ export function Instance(expected: Constructor<unknown>): PropertyDecorator;
  */
 export function Instance(
 	options: Constructor<unknown> | InstanceOptions
-): PropertyDecorator;
+): PropertyDecorator & ParameterDecorator;
 export function Instance(
 	expectedOrOptions: Constructor<unknown> | InstanceOptions
-): PropertyDecorator {
+) {
 	const options = createOptions(expectedOrOptions);
+
 	return createDecorator(
 		s.instance(options.expected),
 		options.assertionEnabled

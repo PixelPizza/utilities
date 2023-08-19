@@ -29,7 +29,11 @@ interface StringUuidOptions
  *
  * @since 1.0.0
  */
-export function Uuid(target: unknown, key: string | symbol): void;
+export function Uuid(
+	target: unknown,
+	key: string | symbol,
+	parameterIndex?: number
+): void;
 /**
  * A decorator that validates the decorated property is a string and a valid uuid
  *
@@ -48,15 +52,19 @@ export function Uuid(target: unknown, key: string | symbol): void;
  *
  * @since 1.0.0
  */
-export function Uuid(options: StringUuidOptions): PropertyDecorator;
+export function Uuid(
+	options: StringUuidOptions
+): PropertyDecorator & ParameterDecorator;
 export function Uuid(
 	options: unknown | StringUuidOptions,
-	key?: string | symbol
-): PropertyDecorator | void {
-	if (key) {
+	key?: string | symbol,
+	parameterIndex?: number
+): (PropertyDecorator & ParameterDecorator) | void {
+	if (key || parameterIndex !== undefined) {
 		return createDecorator(s.string.uuid())(
 			options as NonNullable<unknown>,
-			key
+			key,
+			parameterIndex!
 		);
 	}
 

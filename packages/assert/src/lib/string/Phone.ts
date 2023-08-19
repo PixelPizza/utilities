@@ -20,7 +20,9 @@ import type { AssertionOptions } from "../Assertion";
  *
  * @since 1.1.0
  */
-export function Phone(options: AssertionOptions): PropertyDecorator;
+export function Phone(
+	options: AssertionOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * A decorator that validates that the value is a phone string.
  *
@@ -37,13 +39,22 @@ export function Phone(options: AssertionOptions): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Phone(target: NonNullable<unknown>, key: string | symbol): void;
+export function Phone(
+	target: NonNullable<unknown>,
+	key: string | symbol,
+	parameterIndex?: number
+): void;
 export function Phone(
 	targetOrOptions: NonNullable<unknown> | AssertionOptions,
-	key?: string | symbol
+	key?: string | symbol,
+	parameterIndex?: number
 ) {
-	if (key) {
-		return createDecorator(s.string.phone())(targetOrOptions, key);
+	if (key || parameterIndex !== undefined) {
+		return createDecorator(s.string.phone())(
+			targetOrOptions,
+			key,
+			parameterIndex!
+		);
 	}
 
 	return createDecorator(

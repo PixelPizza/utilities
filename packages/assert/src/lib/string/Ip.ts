@@ -31,7 +31,7 @@ interface IpOptions extends AssertionOptions {
  *
  * @since 1.1.0
  */
-export function Ip(options: IpOptions): PropertyDecorator;
+export function Ip(options: IpOptions): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a valid ip-address.
  *
@@ -50,7 +50,7 @@ export function Ip(options: IpOptions): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Ip(version: 4 | 6): PropertyDecorator;
+export function Ip(version: 4 | 6): PropertyDecorator & ParameterDecorator;
 /**
  * A decorator that validates the decorated property is a valid ip-address.
  *
@@ -67,17 +67,26 @@ export function Ip(version: 4 | 6): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Ip(target: NonNullable<unknown>, key: string | symbol): void;
+export function Ip(
+	target: NonNullable<unknown>,
+	key: string | symbol,
+	parameterIndex?: number
+): void;
 export function Ip(
 	targetOrVersion: NonNullable<unknown> | 4 | 6 | IpOptions,
-	key?: string | symbol
+	key?: string | symbol,
+	parameterIndex?: number
 ) {
 	if (typeof targetOrVersion === "number") {
 		return createDecorator(s.string.ip(targetOrVersion as 4 | 6));
 	}
 
-	if (key) {
-		return createDecorator(s.string.ip())(targetOrVersion, key);
+	if (key || parameterIndex !== undefined) {
+		return createDecorator(s.string.ip())(
+			targetOrVersion,
+			key,
+			parameterIndex!
+		);
 	}
 
 	return createDecorator(

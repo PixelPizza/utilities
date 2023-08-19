@@ -57,7 +57,9 @@ function createOptions(
  *
  * @since 1.1.0
  */
-export function DivisibleBy(options: DivisibleByOptions): PropertyDecorator;
+export function DivisibleBy(
+	options: DivisibleByOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates that the value is a number or bigint and is divisible by the given value.
  *
@@ -76,7 +78,9 @@ export function DivisibleBy(options: DivisibleByOptions): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function DivisibleBy(value: number | bigint): PropertyDecorator;
+export function DivisibleBy(
+	value: number | bigint
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates that the value is a number or bigint and is divisible by the given value.
  *
@@ -84,10 +88,10 @@ export function DivisibleBy(value: number | bigint): PropertyDecorator;
  */
 export function DivisibleBy(
 	value: number | bigint | DivisibleByOptions
-): PropertyDecorator;
+): PropertyDecorator & ParameterDecorator;
 export function DivisibleBy(
 	value: number | bigint | DivisibleByOptions
-): PropertyDecorator {
+): PropertyDecorator & ParameterDecorator {
 	const options = createOptions(value);
 	return createDecorator(
 		createAssertion(options.divisibleBy),

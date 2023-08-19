@@ -20,7 +20,9 @@ import { createDecorator } from "../../utils";
  *
  * @since 1.0.0
  */
-export function Range(options: RangeOptions<number>): PropertyDecorator;
+export function Range(
+	options: RangeOptions<number>
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a bigint within the specified range.
  *
@@ -39,7 +41,9 @@ export function Range(options: RangeOptions<number>): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Range(options: RangeOptions<bigint>): PropertyDecorator;
+export function Range(
+	options: RangeOptions<bigint>
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a number within the specified range.
  *
@@ -58,7 +62,7 @@ export function Range(options: RangeOptions<bigint>): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Range(max: number): PropertyDecorator;
+export function Range(max: number): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a bigint within the specified range.
  *
@@ -77,7 +81,7 @@ export function Range(max: number): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Range(max: bigint): PropertyDecorator;
+export function Range(max: bigint): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a number within the specified range.
  *
@@ -97,7 +101,10 @@ export function Range(max: bigint): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Range(min: number, max: number): PropertyDecorator;
+export function Range(
+	min: number,
+	max: number
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a bigint within the specified range.
  *
@@ -117,7 +124,10 @@ export function Range(min: number, max: number): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Range(min: bigint, max: bigint): PropertyDecorator;
+export function Range(
+	min: bigint,
+	max: bigint
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a number or bigint within the specified range.
  *
@@ -125,13 +135,15 @@ export function Range(min: bigint, max: bigint): PropertyDecorator;
  */
 export function Range<T extends number | bigint>(
 	options: RangeOptions<T>
-): PropertyDecorator;
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a number or bigint within the specified range.
  *
  * @internal This overload is only used for testing
  */
-export function Range<T extends number | bigint>(max: T): PropertyDecorator;
+export function Range<T extends number | bigint>(
+	max: T
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a number or bigint within the specified range.
  *
@@ -140,17 +152,21 @@ export function Range<T extends number | bigint>(max: T): PropertyDecorator;
 export function Range<T extends number | bigint>(
 	min: T,
 	max: T
-): PropertyDecorator;
+): PropertyDecorator & ParameterDecorator;
 export function Range<T extends number | bigint>(
 	options: T | RangeOptions<T>,
 	max?: T
-): PropertyDecorator {
-	return (target, key) => {
+): PropertyDecorator & ParameterDecorator {
+	return (target, key, parameterIndex?: number) => {
 		const newOptions = createOptions(options, max);
 		const assertion = createAssertion(newOptions);
 
 		if (!assertion) return;
 
-		createDecorator(assertion, newOptions.assertionEnabled)(target, key);
+		createDecorator(assertion, newOptions.assertionEnabled)(
+			target,
+			key,
+			parameterIndex!
+		);
 	};
 }
