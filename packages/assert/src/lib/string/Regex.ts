@@ -42,7 +42,9 @@ function createOptions(options: RegExp | RegexOptions): RegexOptions {
  *
  * @since 1.1.0
  */
-export function Regex(options: RegexOptions): PropertyDecorator;
+export function Regex(
+	options: RegexOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a string that matches the given regular expression.
  *
@@ -61,7 +63,7 @@ export function Regex(options: RegexOptions): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Regex(regex: RegExp): PropertyDecorator;
+export function Regex(regex: RegExp): PropertyDecorator & ParameterDecorator;
 export function Regex(regexOrOptions: RegExp | RegexOptions) {
 	const options = createOptions(regexOrOptions);
 	return createDecorator(

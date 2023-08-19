@@ -21,7 +21,9 @@ import type { AssertionOptions } from "../Assertion";
  * @since 1.1.0
  * @see Number.isFinite
  */
-export function Finite(options: AssertionOptions): PropertyDecorator;
+export function Finite(
+	options: AssertionOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * A decorator that validates that the value is a finite number.
  *
@@ -41,14 +43,20 @@ export function Finite(options: AssertionOptions): PropertyDecorator;
  */
 export function Finite(
 	target: NonNullable<unknown>,
-	key: string | symbol
+	key: string | symbol,
+	parameterIndex?: number
 ): void;
 export function Finite(
 	targetOrOptions: NonNullable<unknown> | AssertionOptions,
-	key?: string | symbol
+	key?: string | symbol,
+	parameterIndex?: number
 ) {
-	if (key) {
-		return createDecorator(s.number.finite)(targetOrOptions, key);
+	if (key || parameterIndex !== undefined) {
+		return createDecorator(s.number.finite)(
+			targetOrOptions,
+			key,
+			parameterIndex!
+		);
 	}
 
 	return createDecorator(

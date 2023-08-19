@@ -60,7 +60,9 @@ interface DateRangeOptions extends AssertionOptions {
  *
  * @since 1.0.0
  */
-export function DateRange(options: DateRangeOptions): PropertyDecorator;
+export function DateRange(
+	options: DateRangeOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a date within the specified range.
  *
@@ -79,7 +81,9 @@ export function DateRange(options: DateRangeOptions): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function DateRange(max: Date | string | number): PropertyDecorator;
+export function DateRange(
+	max: Date | string | number
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property is a date within the specified range.
  *
@@ -102,7 +106,7 @@ export function DateRange(max: Date | string | number): PropertyDecorator;
 export function DateRange(
 	min: Date | string | number,
 	max: Date | string | number
-): PropertyDecorator;
+): PropertyDecorator & ParameterDecorator;
 export function DateRange(
 	options: DateLike | DateRangeOptions,
 	max?: DateLike

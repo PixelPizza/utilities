@@ -7,13 +7,24 @@ describe("Number decorator tests", () => {
 			@Assert.Finite
 			@Assert.Int
 			@Assert.SafeInt
-			public number = 3;
+			public number?: number;
+
+			@Assert.ValidateParameters
+			public setNumber(
+				@Assert.Finite
+				@Assert.Int
+				@Assert.SafeInt
+				number: number
+			) {
+				this.number = number;
+				return this;
+			}
 		}
 
-		expect(() => new Test()).not.toThrow();
+		expect(() => new Test().setNumber(3)).not.toThrow();
 	});
 
-	test("invalid use of number decorators", () => {
+	test("invalid use of number property decorators", () => {
 		class Test {
 			@Assert.Finite
 			@Assert.Int
@@ -27,6 +38,35 @@ describe("Number decorator tests", () => {
 				"Given value is not finite",
 				NaN,
 				"Number.isFinite(expected) to be true"
+			)
+		);
+	});
+
+	test("invalid use of number parameter decorators", () => {
+		class Test {
+			@Assert.Finite
+			@Assert.Int
+			@Assert.SafeInt
+			public number: unknown;
+
+			@Assert.ValidateParameters
+			public setNumber(
+				@Assert.Finite
+				@Assert.Int
+				@Assert.SafeInt
+				number: unknown
+			) {
+				this.number = number;
+				return this;
+			}
+		}
+
+		expect(() => new Test().setNumber(NaN)).toThrow(
+			new ExpectedConstraintError(
+				"s.number.safeInt",
+				"Given value is not a safe integer",
+				NaN,
+				"Number.isSafeInteger(expected) to be true"
 			)
 		);
 	});

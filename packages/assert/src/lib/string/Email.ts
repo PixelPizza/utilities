@@ -20,7 +20,9 @@ import type { AssertionOptions } from "../Assertion";
  *
  * @since 1.1.0
  */
-export function Email(options: AssertionOptions): PropertyDecorator;
+export function Email(
+	options: AssertionOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * A decorator that validates that the value is an email string.
  *
@@ -37,13 +39,22 @@ export function Email(options: AssertionOptions): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Email(target: NonNullable<unknown>, key: string | symbol): void;
+export function Email(
+	target: NonNullable<unknown>,
+	key: string | symbol,
+	parameterIndex?: number
+): void;
 export function Email(
 	targetOrOptions: NonNullable<unknown> | AssertionOptions,
-	key?: string | symbol
+	key?: string | symbol,
+	parameterIndex?: number
 ) {
-	if (key) {
-		return createDecorator(s.string.email)(targetOrOptions, key);
+	if (key || parameterIndex !== undefined) {
+		return createDecorator(s.string.email)(
+			targetOrOptions,
+			key,
+			parameterIndex!
+		);
 	}
 
 	return createDecorator(

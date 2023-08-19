@@ -21,7 +21,9 @@ import type { AssertionOptions } from "../Assertion";
  * @since 1.1.0
  * @see Number.isSafeInteger
  */
-export function SafeInt(options: AssertionOptions): PropertyDecorator;
+export function SafeInt(
+	options: AssertionOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * A decorator that validates that the value is a safe integer.
  *
@@ -41,14 +43,20 @@ export function SafeInt(options: AssertionOptions): PropertyDecorator;
  */
 export function SafeInt(
 	target: NonNullable<unknown>,
-	key: string | symbol
+	key: string | symbol,
+	parameterIndex?: number
 ): void;
 export function SafeInt(
 	targetOrOptions: NonNullable<unknown> | AssertionOptions,
-	key?: string | symbol
+	key?: string | symbol,
+	parameterIndex?: number
 ) {
-	if (key) {
-		return createDecorator(s.number.safeInt)(targetOrOptions, key);
+	if (key || parameterIndex !== undefined) {
+		return createDecorator(s.number.safeInt)(
+			targetOrOptions,
+			key,
+			parameterIndex!
+		);
 	}
 
 	return createDecorator(

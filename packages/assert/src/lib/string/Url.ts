@@ -29,7 +29,9 @@ interface UrlOptions extends ShapeShiftUrlOptions, AssertionOptions {}
  *
  * @since 1.0.0
  */
-export function Url(options: UrlOptions): PropertyDecorator;
+export function Url(
+	options: UrlOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * A decorator that validates the decorated property is a string and a valid url
  *
@@ -46,13 +48,22 @@ export function Url(options: UrlOptions): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Url(target: NonNullable<unknown>, key: string | symbol): void;
+export function Url(
+	target: NonNullable<unknown>,
+	key: string | symbol,
+	parameterIndex?: number
+): void;
 export function Url(
 	options: UrlOptions | NonNullable<unknown>,
-	key?: string | symbol
+	key?: string | symbol,
+	parameterIndex?: number
 ): PropertyDecorator | void {
-	if (key) {
-		createDecorator(s.string.url())(options as NonNullable<unknown>, key);
+	if (key || parameterIndex !== undefined) {
+		createDecorator(s.string.url())(
+			options as NonNullable<unknown>,
+			key,
+			parameterIndex!
+		);
 		return;
 	}
 

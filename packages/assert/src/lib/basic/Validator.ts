@@ -56,7 +56,9 @@ function createOptions(
  *
  * @since 1.1.0
  */
-export function Validator(options: ValidatorOptions): PropertyDecorator;
+export function Validator(
+	options: ValidatorOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property using the given validator.
  *
@@ -74,7 +76,9 @@ export function Validator(options: ValidatorOptions): PropertyDecorator;
  *
  * @since 1.0.0
  */
-export function Validator(validator: BaseValidator<any>): PropertyDecorator;
+export function Validator(
+	validator: BaseValidator<any>
+): PropertyDecorator & ParameterDecorator;
 /**
  * Creates a decorator that validates the decorated property using the given validator.
  *
@@ -82,10 +86,10 @@ export function Validator(validator: BaseValidator<any>): PropertyDecorator;
  */
 export function Validator(
 	options: BaseValidator<any> | ValidatorOptions
-): PropertyDecorator;
+): PropertyDecorator & ParameterDecorator;
 export function Validator(
 	validatorOrOptions: BaseValidator<any> | ValidatorOptions
-): PropertyDecorator {
+): PropertyDecorator & ParameterDecorator {
 	const options = createOptions(validatorOrOptions);
 	return createDecorator(options.validator, options.assertionEnabled);
 }

@@ -20,7 +20,9 @@ import type { AssertionOptions } from "../Assertion";
  *
  * @since 1.1.0
  */
-export function InvalidDate(options: AssertionOptions): PropertyDecorator;
+export function InvalidDate(
+	options: AssertionOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * A decorator that validates that the value is an invalid date.
  *
@@ -39,14 +41,20 @@ export function InvalidDate(options: AssertionOptions): PropertyDecorator;
  */
 export function InvalidDate(
 	target: NonNullable<unknown>,
-	key: string | symbol
+	key: string | symbol,
+	parameterIndex?: number
 ): void;
 export function InvalidDate(
 	targetOrOptions: NonNullable<unknown> | AssertionOptions,
-	key?: string | symbol
+	key?: string | symbol,
+	parameterIndex?: number
 ) {
-	if (key) {
-		return createDecorator(s.date.invalid)(targetOrOptions, key);
+	if (key || parameterIndex !== undefined) {
+		return createDecorator(s.date.invalid)(
+			targetOrOptions,
+			key,
+			parameterIndex!
+		);
 	}
 
 	return createDecorator(

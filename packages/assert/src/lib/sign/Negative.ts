@@ -21,7 +21,9 @@ const assertion = s.number.negative.or(s.bigint.negative);
  *
  * @since 1.1.0
  */
-export function Negative(options: AssertionOptions): PropertyDecorator;
+export function Negative(
+	options: AssertionOptions
+): PropertyDecorator & ParameterDecorator;
 /**
  * A decorator that validates that the value is a negative number or bigint.
  *
@@ -39,14 +41,20 @@ export function Negative(options: AssertionOptions): PropertyDecorator;
  */
 export function Negative(
 	target: NonNullable<unknown>,
-	key: string | symbol
+	key: string | symbol,
+	parameterIndex?: number
 ): void;
 export function Negative(
 	targetOrOptions: NonNullable<unknown> | AssertionOptions,
-	key?: string | symbol
+	key?: string | symbol,
+	parameterIndex?: number
 ) {
-	if (key) {
-		return createDecorator(assertion)(targetOrOptions, key);
+	if (key || parameterIndex !== undefined) {
+		return createDecorator(assertion)(
+			targetOrOptions,
+			key,
+			parameterIndex!
+		);
 	}
 
 	return createDecorator(

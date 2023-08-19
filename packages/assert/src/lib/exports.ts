@@ -4,6 +4,7 @@ export * from "./basic/IsNull";
 export * from "./basic/IsTrue";
 export * from "./basic/IsUndefined";
 export * from "./basic/Type";
+export * from "./basic/ValidateParameters";
 export * from "./basic/Validator";
 export * from "./comparison/Range";
 export * from "./comparison/DateRange";
