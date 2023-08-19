@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+# [@pixelpizza/assert@1.2.0](https://github.com/pixelpizza/utilities/compare/@pixelpizza/assert@1.1.2...@pixelpizza/assert@1.2.0)- (2023-08-19)
+
+## Features
+
+- Add parameter decorators (#15) ([b5118dd](https://github.com/pixelpizza/utilities/commit/b5118dd0bb716d76600ccd5a8256d4a4a2234921))
+
+## Refactor
+
+- Shorten config check (#13) ([374a617](https://github.com/pixelpizza/utilities/commit/374a617c4f9f6b0f35b75df7a8a23ab1762af3a6))
+
+## Testing
+
+- Merge sign tests where possible ([174877b](https://github.com/pixelpizza/utilities/commit/174877b716d8618a98a2fe3f49a5241b8ed5e316))
+
 # [@pixelpizza/assert@1.1.2](https://github.com/pixelpizza/utilities/compare/@pixelpizza/assert@1.1.1...@pixelpizza/assert@1.1.2)- (2023-08-13)
 
 ## Bug Fixes
